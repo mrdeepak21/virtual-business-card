@@ -24,15 +24,15 @@ function display_sales_persons() {
         <table class="wp-list-table widefat fixed striped">
             <thead>
                 <tr>
-                    <th><?php _e('ID', 'sterling'); ?></th>
                     <th><?php _e('Profile Photo', 'sterling'); ?></th>
                     <th><?php _e('Name', 'sterling'); ?></th>
                     <th><?php _e('Email', 'sterling'); ?></th>
                     <th><?php _e('Phone', 'sterling'); ?></th>
-                    <th><?php _e('Address', 'sterling'); ?></th>
                     <th><?php _e('Designation', 'sterling'); ?></th>
+                    <th><?php _e('Address', 'sterling'); ?></th>
                     <th><?php _e('Linkedin Profile', 'sterling'); ?></th>
                     <th><?php _e('Website', 'sterling'); ?></th>
+                    <th><?php _e('Analytics', 'sterling'); ?></th>
                     <!-- Add more columns as needed -->
                 </tr>
             </thead>
@@ -42,16 +42,16 @@ function display_sales_persons() {
                     $avatar_url = $avatar ? wp_get_attachment_url($avatar) : 'https://www.gravatar.com/avatar/'.md5(get_the_author_meta('user_email', $user->ID));
                     $name =  esc_html(get_the_author_meta('first_name', $user->ID)." ".get_the_author_meta('last_name', $user->ID));
                     ?>
-                    <tr>
-                        <td><?php echo $user->ID; ?></td>
-                        <td><img src="<?php echo esc_url($avatar_url); ?>" width="50" height="50"><button style="cursor: pointer" onclick="show_qr(<?php echo $user->ID.',\''.$name; ?>')">Show QR</button></td>                       
+                    <tr>                      
+                        <td><img src="<?php echo esc_url($avatar_url); ?>" width="50" height="50"><br><button class="button" onclick="show_qr(<?php echo $user->ID.',\''.$name; ?>')">Show QR</button></td>                       
                         <td><a href="<?php echo get_permalink( get_page_by_path( 'qr' ) ).'&id='.$user->ID; ?>" target="_blank"><?php echo $name; ?></a></td>
                         <td><?php echo esc_html(get_the_author_meta('user_email', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('phone', $user->ID)); ?></td>
-                        <td><?php echo esc_html(get_the_author_meta('address', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('designation', $user->ID)); ?></td>
+                        <td><?php echo esc_html(get_the_author_meta('address', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('linked_url', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('user_url', $user->ID)); ?></td>
+                        <td><?php echo esc_html(get_the_author_meta('scan', $user->ID)); ?></td>
                         <!-- Display additional columns as needed -->
                     </tr>
                 <?php endforeach; ?>

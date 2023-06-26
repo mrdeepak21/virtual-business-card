@@ -6,6 +6,7 @@ Template Name: Profile Template
 get_header();
 
 $user_id = get_query_var( 'id' );
+update_user_meta($user_id, 'scan',intval(get_the_author_meta('scan', $user_id))+1);
 $user_data = get_userdata($user_id);
 $avatar = get_the_author_meta('avatar', $user_id);
 $avatar_url = $avatar ? wp_get_attachment_url($avatar) : 'https://www.gravatar.com/avatar/'.md5(get_the_author_meta('user_email', $user->ID));
