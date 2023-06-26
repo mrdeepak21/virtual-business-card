@@ -1,5 +1,8 @@
 <?php
 // AJAX handler for generating QR code with logo
+add_action('wp_ajax_custom_qr_code_logo', 'custom_qr_code_logo_ajax_handler');
+add_action('wp_ajax_nopriv_custom_qr_code_logo', 'custom_qr_code_logo_ajax_handler');
+
 function custom_qr_code_logo_ajax_handler() {
     // Verify the AJAX request
     check_ajax_referer('custom_qr_code_logo_ajax_nonce', 'security');
@@ -54,5 +57,21 @@ function custom_qr_code_logo_ajax_handler() {
     wp_send_json_success($image_src);
 }
 
-add_action('wp_ajax_custom_qr_code_logo', 'custom_qr_code_logo_ajax_handler');
-add_action('wp_ajax_nopriv_custom_qr_code_logo', 'custom_qr_code_logo_ajax_handler');
+
+
+// AJAX handler for showing scan Analytics
+add_action('wp_ajax_scan_analytics', 'scan_analytics');
+add_action('wp_ajax_nopriv_scan_analytics', 'scan_analytics');
+
+function scan_analytics() {
+    // Verify the AJAX request
+    check_ajax_referer('scan_analytics_ajax_nonce', 'security');
+
+
+    // Return the HTML code in the AJAX response
+    wp_send_json_success($_POST['string']);
+}
+
+
+
+

@@ -21,21 +21,26 @@
  */
 
 // Hook into the plugin activation
+global $wpdb;
+define('TABLE_NAME',$wpdb->prefix . 'virtual_card_scan_analytics');
+
 register_activation_hook( __FILE__, function (){
     global $wpdb;
+// $table_name = $wpdb->prefix . 'virtual_card_scan_analytics';
 
-    $table_name = $wpdb->prefix . 'virtual_card_scan_analytics'; // Replace 'my_table' with your desired table name
+   // Replace 'my_table' with your desired table name
     $charset_collate = $wpdb->get_charset_collate();
 
      //Check to see if the table exists already, if not, then create it
-  if($wpdb->get_var( "show tables like '$table_name'" ) != $table_name ) 
+  if($wpdb->get_var( "show tables like ".TABLE_NAME) != TABLE_NAME ) 
   {
-        $sql = "CREATE TABLE $table_name (
+        $sql = "CREATE TABLE ".TABLE_NAME." (
             id INT(11) NOT NULL AUTO_INCREMENT,
             user_id VARCHAR(255) NOT NULL,
             scan int(20),
-            client_ip VARCHAR(50),
-            UNIQUE KEY id (id)
+            client_ip VARCHAR(50) NOT NULL,
+            PRIMARY KEY id (id), 
+            UNIQUE KEY client_ip ( client_ip)
         ) $charset_collate;";
  
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -51,7 +56,7 @@ require_once('inc/basic.php');
 
 require_once('inc/user-custom-fields.php');
 
-require_once('inc/ajax-qr.php');
+require_once('inc/ajax-response.php');
 
 require_once('inc/admin-menu-page.php');
 

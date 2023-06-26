@@ -43,7 +43,7 @@ function display_sales_persons() {
                     $name =  esc_html(get_the_author_meta('first_name', $user->ID)." ".get_the_author_meta('last_name', $user->ID));
                     ?>
                     <tr>                      
-                        <td><img src="<?php echo esc_url($avatar_url); ?>" width="50" height="50"><br><button class="button" onclick="show_qr(<?php echo $user->ID.',\''.$name; ?>')">Show QR</button></td>                       
+                        <td><img src="<?php echo esc_url($avatar_url); ?>" width="50" height="50"><br><button class="button open-popup" onclick="show_qr(<?php echo $user->ID.',\''.$name; ?>')">Show QR</button></td>                       
                         <td><a href="<?php echo get_permalink( get_page_by_path( 'qr' ) ).'&id='.$user->ID; ?>" target="_blank"><?php echo $name; ?></a></td>
                         <td><?php echo esc_html(get_the_author_meta('user_email', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('phone', $user->ID)); ?></td>
@@ -51,33 +51,37 @@ function display_sales_persons() {
                         <td><?php echo esc_html(get_the_author_meta('address', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('linked_url', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('user_url', $user->ID)); ?></td>
-                        <td><?php echo esc_html(get_the_author_meta('scan', $user->ID)); ?></td>
+                        <td><a class="open-popup" onclick="display_analytics(<?php echo $user->ID; ?>);"><?php echo esc_html(get_the_author_meta('scan', $user->ID)); ?></a></td>
                         <!-- Display additional columns as needed -->
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    <div id="popup_modal" style="display: none;">
-        <h2 id="title">QR code  for <i><span id="u_name"></span></i></h2>
-        <div id="qr"></div><caption>Scan the code</caption><br><br><br>
-        <div><a href="" id="download" class="button" download="QR-Code">Download QR Code</a>        
-        <button id="my-close-btn" class="button">Close</button></div>
+    <div class="popup_modal" style="display: none;">
+        <div class="html">
+            Loading...
+        </div>
+        <button class="close-popup button">	&times;</button>
     </div>
 
     <script>
     jQuery(document).ready(function($) {        
+        // Open the popup modal
+        $('.open-popup').click(function() {
+            $('.popup_modal').slideDown();
+        });
         // Close the popup modal
-        $('#my-close-btn').click(function() {
-            $('#popup_modal').slideUp();
+        $('.close-popup').click(function() {
+            $('.popup_modal').slideUp();
         });
     }); 
+
     function show_qr(id,name){
-         // Open the popup modal
-         jQuery(document).ready(function($) {
-        jQuery('#popup_modal').slideDown();
-        jQuery('#popup_modal #qr').html("<h1>Generating...!</h1>");
-        jQuery('#popup_modal #u_name').html(name);
+        
+        jQuery(document).ready(function($) {
+        jQuery('.popup_modal .html').html(`<h2>QR Code for <i>${name}</i></h2><div id='qr'><h1>Generating...!</h1></div><a href="${void(0)}" id="download" class="button" download="QR-Code">Download QR Code</a>`); 
+        
     // AJAX request
     $.ajax({
         url: '<?php echo admin_url('admin-ajax.php'); ?>',
@@ -90,33 +94,62 @@ function display_sales_persons() {
         success: function(response) {
             if (response.success) {
                 // Display the QR code image in a container
-                $('#popup_modal #qr').html('<img src="'+response.data+'" alt="" srcset="" width="300">');
+                $('.popup_modal #qr').html('<img src="'+response.data+'" alt="" srcset="" width="300">');
                 $('#download').attr('href',response.data);
                 
             } else {
                 // Handle error
-                $('#popup_modal #text').html(response.data);
+                $('.popup_modal #qr').html(response.data);
             }
         },
         error: function(xhr, status, error) {
             // Handle error
-            $('#popup_modal #text').html(xhr+"<br>"+status+"<br>"+error);
+            $('.popup_modal #qr').html(xhr+"<br>"+status+"<br>"+error);
             console.log(xhr);
         }
     });
 });
 
     }
+
+    function display_analytics(user_id) {
+        jQuery('.popup_modal .html').html(`<h2>Loading...</h2>`);
+        // AJAX request
+    $.ajax({
+        url: '<?php echo admin_url('admin-ajax.php'); ?>',
+        type: 'POST',
+        data: {
+            action: 'scan_analytics',
+            security: '<?php echo  wp_create_nonce('scan_analytics_ajax_nonce'); ?>',
+            string: id, // Replace with the actual custom string
+        },
+        success: function(response) {
+            if (response.success) {
+                // Display the QR code image in a container
+                $('.popup_modal .html').html(response.data);
+                
+            } else {
+                // Handle error
+                $('.popup_modal .html').html(response.data);
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle error
+            $('.popup_modal .html').html(xhr+"<br>"+status+"<br>"+error);
+            console.log(xhr);
+        }
+    });
+    }
     </script>
     <style>
-        #popup_modal{
+        .popup_modal{
     position: fixed;
     z-index: 10;
     background-color: #fff;
     min-width: 200px;
     min-height:100px;
-    width: 420px;
-    height: 460px;
+    width: 360px;
+    height: fit-content;
     border-radius: 4px;
     padding: 10px;
     left: 50%;
@@ -130,9 +163,25 @@ function display_sales_persons() {
     align-items: center;
     justify-content: center;
         }
+
+        .popup_model .html{
+            display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+        }
+
         #qr{
             height: 300px;
             width: 300px;
+        }
+        .close-popup{
+            position: absolute;
+            right:0;
+            top:0;
+        }
+        .open-popup{
+            cursor: pointer;
         }
         </style>
     <?php

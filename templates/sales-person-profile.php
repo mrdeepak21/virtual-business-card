@@ -5,9 +5,25 @@ Template Name: Profile Template
 
 get_header();
 
+$ip_addr = getenv('HTTP_CLIENT_IP')?:
+getenv('HTTP_X_FORWARDED_FOR')?:
+getenv('HTTP_X_FORWARDED')?:
+getenv('HTTP_FORWARDED_FOR')?:
+getenv('HTTP_FORWARDED')?:
+getenv('REMOTE_ADDR');
 $user_id = get_query_var( 'id' );
 update_user_meta($user_id, 'scan',intval(get_the_author_meta('scan', $user_id))+1);
 $user_data = get_userdata($user_id);
+global $wpdb;
+$result = $wpdb->query("UPDATE ".TABLE_NAME." SET scan=scan+1 WHERE `client_ip` = '".$ip_addr."'");
+//If nothing found to update, it will try and create the record.
+if ($result === FALSE || $result < 1) {
+    $wpdb->insert(TABLE_NAME, array(
+        "user_id" => $user_id,
+        "scan" => +1,
+        "client_ip" => $ip_addr,
+    ));
+}
 $avatar = get_the_author_meta('avatar', $user_id);
 $avatar_url = $avatar ? wp_get_attachment_url($avatar) : 'https://www.gravatar.com/avatar/'.md5(get_the_author_meta('user_email', $user->ID));
 ?>
