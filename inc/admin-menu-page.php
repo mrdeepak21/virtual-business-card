@@ -113,6 +113,7 @@ function display_sales_persons() {
     }
 
     function display_analytics(user_id) {
+        jQuery(document).ready(function($) {
         jQuery('.popup_modal .html').html(`<h2>Loading...</h2>`);
         // AJAX request
     $.ajax({
@@ -121,16 +122,35 @@ function display_sales_persons() {
         data: {
             action: 'scan_analytics',
             security: '<?php echo  wp_create_nonce('scan_analytics_ajax_nonce'); ?>',
-            string: id, // Replace with the actual custom string
+            string: user_id, // Replace with the actual custom string
         },
         success: function(response) {
-            if (response.success) {
+            if (response.success && typeof response.data =='object') {
+                rows = '';
+                response.data.forEach(element => {
+                    rows+=`<tr>
+                <td>${element.client_ip}</td>                
+                <td>${element.scan}</td>  
+                </tr>`; 
+                });
                 // Display the QR code image in a container
-                $('.popup_modal .html').html(response.data);
-                
-            } else {
+                $('.popup_modal .html').html(`
+                <table class="wp-list-table widefat fixed striped">
+                <thead>
+                <tr>
+                <th>Customer's IP</th>
+                <th>No of Scan(s)</th>
+                </tr>
+                </thead>
+                <tbody>
+                ${rows}     
+                </tbody>        
+                <table>
+                `);
+                console.log(response.data);}            
+             else {
                 // Handle error
-                $('.popup_modal .html').html(response.data);
+                $('.popup_modal .html').html(`<h2>${response.data}</h2>`);
             }
         },
         error: function(xhr, status, error) {
@@ -139,7 +159,8 @@ function display_sales_persons() {
             console.log(xhr);
         }
     });
-    }
+    });
+}
     </script>
     <style>
         .popup_modal{

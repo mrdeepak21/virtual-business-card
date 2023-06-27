@@ -66,12 +66,15 @@ add_action('wp_ajax_nopriv_scan_analytics', 'scan_analytics');
 function scan_analytics() {
     // Verify the AJAX request
     check_ajax_referer('scan_analytics_ajax_nonce', 'security');
+if(!empty($_POST['string']))
+{
+    @ini_set('display_errors',1);
+    global $wpdb;
+    $result = $wpdb->get_results("SELECT * FROM ".TABLE_NAME." WHERE user_id=".$_POST['string']);
 
-
-    // Return the HTML code in the AJAX response
-    wp_send_json_success($_POST['string']);
+// Return the HTML code in the AJAX response
+sizeof($result)>0 ? wp_send_json_success($result): wp_send_json_success('not scaned yet');
+} else {
+    wp_send_json_error('Error');
 }
-
-
-
-
+}
