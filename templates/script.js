@@ -1,11 +1,11 @@
 function createVCard() {
-  const user_name = document.getElementsByClassName('entry-title')[0].innerHTML.trim();
-  const email = document.getElementsByClassName('email')[0].innerHTML.trim();
-  const website = document.getElementsByClassName('website')[0].innerHTML.trim();
-  const address = document.getElementsByClassName('address')[0].innerHTML.trim();
-  const phone = document.getElementsByClassName('phone-data')[0].innerHTML.trim();
-  const linkedin = document.getElementsByClassName('linkedin')[0].href.trim();
-  const designation = document.getElementsByClassName('designation')[0].innerHTML.trim();
+  const user_name = document.getElementsByClassName('entry-title')[0]!==undefined ?document.getElementsByClassName('entry-title')[0].innerHTML.trim():'';
+  const email = document.getElementsByClassName('email')[0]!==undefined?document.getElementsByClassName('email')[0].innerHTML.trim():"";
+  const website = document.getElementsByClassName('website')[0]!==undefined?document.getElementsByClassName('website')[0].innerHTML.trim():'';
+  const address = document.getElementsByClassName('address')[0]!==undefined?document.getElementsByClassName('address')[0].innerHTML.trim():'';
+  const phone = document.getElementsByClassName('phone-data')[0]!==undefined?document.getElementsByClassName('phone-data')[0].innerHTML.trim():'';
+  const linkedin = document.getElementsByClassName('linkedin')[0]!==undefined?document.getElementsByClassName('linkedin')[0].href.trim():"";
+  const designation = document.getElementsByClassName('designation')[0]!==undefined?document.getElementsByClassName('designation')[0].innerHTML.trim():'';
 
   var vcardData = [
     'BEGIN:VCARD',
