@@ -32,7 +32,7 @@ function display_sales_persons() {
                     <th><?php _e('Address', 'sterling'); ?></th>
                     <th><?php _e('Linkedin Profile', 'sterling'); ?></th>
                     <th><?php _e('Website', 'sterling'); ?></th>
-                    <th><?php _e('Analytics', 'sterling'); ?></th>
+                    <th><?php _e('Total Page Views', 'sterling'); ?></th>
                     <!-- Add more columns as needed -->
                 </tr>
             </thead>
@@ -138,8 +138,8 @@ function display_sales_persons() {
                 <table class="wp-list-table widefat fixed striped">
                 <thead>
                 <tr>
-                <th>Customer's IP</th>
-                <th>No of Scan(s)</th>
+                <th>Unique Visitors</th>
+                <th>Page Views</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -147,7 +147,8 @@ function display_sales_persons() {
                 </tbody>        
                 <table>
                 `);
-                console.log(response.data);}            
+
+                }            
              else {
                 // Handle error
                 $('.popup_modal .html').html(`<h2>${response.data}</h2>`);

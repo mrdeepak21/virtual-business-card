@@ -14,12 +14,12 @@ getenv('REMOTE_ADDR');
 update_user_meta($user_id, 'scan',intval(get_the_author_meta('scan', $user_id))+1);
 $user_data = get_userdata($user_id);
 global $wpdb;
-$result = $wpdb->query("UPDATE ".TABLE_NAME." SET scan=scan+1 WHERE `client_ip` = '".$ip_addr."'");
+$result = $wpdb->query("UPDATE ".TABLE_NAME." SET scan=scan+1 WHERE `client_ip` = '".$ip_addr."' AND `user_id`=".$user_id);
 //If nothing found to update, it will try and create the record.
 if ($result === FALSE || $result < 1) {
     $wpdb->insert(TABLE_NAME, array(
         "user_id" => $user_id,
-        "scan" => +1,
+        "scan" => 1,
         "client_ip" => $ip_addr,
     ));
 }
@@ -33,6 +33,7 @@ $url = esc_html( get_the_author_meta( 'user_url', $user_id) );
 $address = esc_html( get_the_author_meta( 'address', $user_id) );
 $avatar = get_the_author_meta('avatar', $user_id);
 $avatar_url = $avatar ? wp_get_attachment_url($avatar) : 'https://www.gravatar.com/avatar/'.md5($email);
+
 ?>
 
 <div id="primary" class="content-area">

@@ -39,8 +39,7 @@ register_activation_hook( __FILE__, function (){
             user_id VARCHAR(255) NOT NULL,
             scan int(20),
             client_ip VARCHAR(50) NOT NULL,
-            PRIMARY KEY id (id), 
-            UNIQUE KEY client_ip ( client_ip)
+            PRIMARY KEY id (id)
         ) $charset_collate;";
  
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );

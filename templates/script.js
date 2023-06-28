@@ -1,3 +1,5 @@
+//change title
+window.onload = ()=>{document.title = document.getElementsByClassName('entry-title')[0].innerHTML.trim();}
 function createVCard() {
   const user_name = document.getElementsByClassName('entry-title')[0]!==undefined ?document.getElementsByClassName('entry-title')[0].innerHTML.trim():'';
   const email = document.getElementsByClassName('email')[0]!==undefined?document.getElementsByClassName('email')[0].innerHTML.trim():"";
