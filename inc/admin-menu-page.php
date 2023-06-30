@@ -43,8 +43,8 @@ function display_sales_persons() {
                     $name =  esc_html(get_the_author_meta('first_name', $user->ID)." ".get_the_author_meta('last_name', $user->ID));
                     ?>
                     <tr>                      
-                        <td><img src="<?php echo esc_url($avatar_url); ?>" width="50" height="50"><br><button class="button open-popup" onclick="show_qr(<?php echo $user->ID.',\''.$name; ?>')">Show QR</button></td>                       
-                        <td><a href="<?php echo get_permalink( get_page_by_path( 'qr' ) ).'&id='.$user->ID; ?>" target="_blank"><?php echo $name; ?></a></td>
+                        <td><img src="<?php echo esc_url($avatar_url); ?>" width="50" height="50"><br><button class="button open-popup" onclick="show_qr('<?php echo base64_encode($user->ID).'\',\''.$name; ?>')">Show QR</button></td>                       
+                        <td><a href="<?php echo get_permalink( get_page_by_path( 'qr' ) ).'&id='.base64_encode($user->ID); ?>" target="_blank"><?php echo $name; ?></a></td>
                         <td><?php echo esc_html(get_the_author_meta('user_email', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('phone', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('designation', $user->ID)); ?></td>
@@ -61,7 +61,7 @@ function display_sales_persons() {
     <div class="popup_modal" style="display: none;">
         <div class="html">
             Loading...
-        </div>
+        </div>        
         <button class="close-popup button">	&times;</button>
     </div>
 
@@ -131,23 +131,59 @@ function display_sales_persons() {
                     rows+=`<tr>
                 <td>${element.client_ip}</td>                
                 <td>${element.scan}</td>  
+                <td>${Math.floor(Math.random() * 10) + 1}</td>  
                 </tr>`; 
                 });
-                // Display the QR code image in a container
-                $('.popup_modal .html').html(`
-                <table class="wp-list-table widefat fixed striped">
-                <thead>
+                const result = `<div class="box">
+        <h2>Visitor Highlights</h2>
+    <div class="inside">
+        <table class="wp-list-table widefat fixed">
+            <thead>
                 <tr>
-                <th>Unique Visitors</th>
-                <th>Page Views</th>
+                    <th>Unique Visitors</th>
+                    <th>Page Views</th>
+                    <th>Button Clicks</th>
                 </tr>
-                </thead>
-                <tbody>
-                ${rows}     
-                </tbody>        
-                <table>
-                `);
+            </thead>
+            <tbody>
+                ${rows}
+            </tbody>
+            <table>
+    </div>
+</div>
+<div class="box">
+   <h2>Visitor Metrics</h2>
+   <canvas id="myChart"></canvas>
+    <div class="inside">
+    </div>
+    </div>`;
+                // Display the QR code image in a container
+                $('.popup_modal .html').html(result);
 
+    // Get the canvas element
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    // Create the chart
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jun 5', 'Jun 10', 'Jun 15', 'Jun 20', 'Jun 25', 'Jun 30', 'Jul 5'],
+            datasets: [{
+                label: 'Unique Visitors',
+                data: generateData(),
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'blue',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
                 }            
              else {
                 // Handle error
@@ -162,16 +198,27 @@ function display_sales_persons() {
     });
     });
 }
+ // Generate random data for the graph
+ function generateData() {
+        var data = [];
+        for (var i = 0; i < 7; i++) {
+            data.push(Math.floor(Math.random() * 10) + 1);
+        }
+        return data;
+    }
     </script>
     <style>
+        #wpadminbar{
+            display: none !important;
+        }
         .popup_modal{
     position: fixed;
-    z-index: 10;
-    background-color: #fff;
+    z-index: 10000;
+    background-color: #f1f1f1;
     min-width: 200px;
     min-height:100px;
-    width: 360px;
-    height: fit-content;
+    width: 100vw;
+    height: 100vh;
     border-radius: 4px;
     padding: 10px;
     left: 50%;
@@ -179,18 +226,21 @@ function display_sales_persons() {
     transform: translate(-50%, -50%);
     text-align: center;
     display: none;
-    box-shadow: 0 0 50px 2px #ddd;
+    box-shadow: 0 0 50px 2px #555;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
         }
 
-        .popup_model .html{
+  .popup_modal .html{
             display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    width: 80% !important;
+    position: relative;
+    overflow-y: scroll;
         }
 
         #qr{
@@ -199,12 +249,27 @@ function display_sales_persons() {
         }
         .close-popup{
             position: absolute;
-            right:0;
-            top:0;
+            right:10px;
+            top:10px;
         }
         .open-popup{
             cursor: pointer;
         }
+        .html table, td, th,th,tr{
+            border: 0;
+            text-align: left !important;
+        }
+
+        .html .box{
+            background-color: #fff;
+            text-align:left!important;
+            padding: 10px;
+        }
         </style>
     <?php
 }
+
+// Enqueue Chart.js library
+add_action('admin_enqueue_scripts', function() {
+    wp_enqueue_script('chart-js', 'https://cdn.jsdelivr.net/npm/chart.js');
+});
