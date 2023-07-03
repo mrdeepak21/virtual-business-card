@@ -43,8 +43,8 @@ function display_sales_persons() {
                     $name =  esc_html(get_the_author_meta('first_name', $user->ID)." ".get_the_author_meta('last_name', $user->ID));
                     ?>
                     <tr>                      
-                        <td><img src="<?php echo esc_url($avatar_url); ?>" width="50" height="50"><br><button class="button open-popup" onclick="show_qr('<?php echo base64_encode($user->ID).'\',\''.$name; ?>')">Show QR</button></td>                       
-                        <td><a href="<?php echo get_permalink( get_page_by_path( 'qr' ) ).'&id='.base64_encode($user->ID); ?>" target="_blank"><?php echo $name; ?></a></td>
+                        <td><img src="<?php echo esc_url($avatar_url); ?>" width="50" height="50"><br><button class="button open-popup" onclick="show_qr('<?php echo $user->ID.'\',\''.$name; ?>')">Show QR</button></td>                       
+                        <td><a href="<?php echo get_permalink( get_page_by_path( 'qr' ) ).'&id='.$user->ID; ?>" target="_blank"><?php echo $name; ?></a></td>
                         <td><?php echo esc_html(get_the_author_meta('user_email', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('phone', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('designation', $user->ID)); ?></td>

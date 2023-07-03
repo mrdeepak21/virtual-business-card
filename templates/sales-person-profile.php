@@ -4,7 +4,7 @@ Template Name: Profile Template
 */
 
 get_header();
-$user_id = base64_decode(trim(get_query_var( 'id' )));
+$user_id = trim(get_query_var( 'id' ));
 $ip_addr = getenv('HTTP_CLIENT_IP')?:
 getenv('HTTP_X_FORWARDED_FOR')?:
 getenv('HTTP_X_FORWARDED')?:
