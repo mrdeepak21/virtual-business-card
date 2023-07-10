@@ -68,7 +68,6 @@ function scan_analytics() {
     check_ajax_referer('scan_analytics_ajax_nonce', 'security');
 if(!empty($_POST['string']))
 {
-    @ini_set('display_errors',1);
     global $wpdb;
     $result = $wpdb->get_results("SELECT * FROM ".TABLE_NAME." WHERE user_id=".$_POST['string']);
 

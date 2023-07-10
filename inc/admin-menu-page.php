@@ -134,6 +134,7 @@ function display_sales_persons() {
                 <td>${element.client_ip}</td>                
                 <td>${element.scan}</td>  
                 <td>${Math.floor(Math.random() * 10) + 1}</td>  
+                <td>${element.visit_time}</td>  
                 </tr>`; 
                 });
                 const result = `<div class="box">
@@ -145,6 +146,7 @@ function display_sales_persons() {
                     <th>Unique Visitors</th>
                     <th>Page Views</th>
                     <th>Button Clicks</th>
+                    <th>Last Scan</th>
                 </tr>
             </thead>
             <tbody>

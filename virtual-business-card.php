@@ -39,7 +39,7 @@ register_activation_hook( __FILE__, function (){
             user_id VARCHAR(255) NOT NULL,
             scan int(20),
             client_ip VARCHAR(50) NOT NULL,
-            visit_time DATETIME NOT NULL default CURRENT_TIMESTAMP,
+            visit_time DATETIME default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
             PRIMARY KEY id (id)
         ) $charset_collate;";
  
