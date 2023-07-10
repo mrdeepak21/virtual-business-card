@@ -41,17 +41,19 @@ function display_sales_persons() {
                     $avatar = get_the_author_meta('avatar', $user->ID);
                     $avatar_url = $avatar ? wp_get_attachment_url($avatar) : 'https://www.gravatar.com/avatar/'.md5(get_the_author_meta('user_email', $user->ID));
                     $name =  esc_html(get_the_author_meta('first_name', $user->ID)." ".get_the_author_meta('last_name', $user->ID));
+                    $url_id = (intval($user->ID)*27)+1258;
+                    $url = site_url()."/".$url_id;
                     ?>
                     <tr>                      
-                        <td><img src="<?php echo esc_url($avatar_url); ?>" width="50" height="50"><br><button class="button open-popup" onclick="show_qr('<?php echo $user->ID.'\',\''.$name; ?>')">Show QR</button></td>                       
-                        <td><a href="<?php echo get_permalink( get_page_by_path( 'qr' ) ).'&id='.$user->ID; ?>" target="_blank"><?php echo $name; ?></a></td>
+                        <td><img src="<?php echo esc_url($avatar_url); ?>" width="50" height="50"><br><button class="button open-popup" onclick="show_qr(`<?php echo $url_id.'`,`'.$name; ?>`)">Show QR</button></td>                       
+                        <td><a href="<?php echo $url; ?>" target="_blank"><?php echo $name; ?></a></td>
                         <td><?php echo esc_html(get_the_author_meta('user_email', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('phone', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('designation', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('address', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('linked_url', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('user_url', $user->ID)); ?></td>
-                        <td><a class="open-popup" onclick="display_analytics(<?php echo $user->ID; ?>);"><?php echo esc_html(get_the_author_meta('scan', $user->ID)); ?></a></td>
+                        <td><a class="open-popup" onclick="display_analytics(`<?php echo $user->ID.'`,`'.$name; ?>`);"><?php echo esc_html(get_the_author_meta('scan', $user->ID)); ?></a></td>
                         <!-- Display additional columns as needed -->
                     </tr>
                 <?php endforeach; ?>
@@ -112,7 +114,7 @@ function display_sales_persons() {
 
     }
 
-    function display_analytics(user_id) {
+    function display_analytics(user_id,name) {
         jQuery(document).ready(function($) {
         jQuery('.popup_modal .html').html(`<h2>Loading...</h2>`);
         // AJAX request
@@ -135,7 +137,7 @@ function display_sales_persons() {
                 </tr>`; 
                 });
                 const result = `<div class="box">
-        <h2>Visitor Highlights</h2>
+        <h2>Visitor Highlights for <em>${name}</em></h2>
     <div class="inside">
         <table class="wp-list-table widefat fixed">
             <thead>
@@ -208,9 +210,6 @@ function display_sales_persons() {
     }
     </script>
     <style>
-        #wpadminbar{
-            display: none !important;
-        }
         .popup_modal{
     position: fixed;
     z-index: 10000;
@@ -231,6 +230,7 @@ function display_sales_persons() {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    margin-top:32px;
         }
 
   .popup_modal .html{

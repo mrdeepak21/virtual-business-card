@@ -58,8 +58,15 @@ function prefix_hide_personal_options() {
     wp_enqueue_media();
 });
 
+// Register the user data endpoint
+add_action( 'init', function () {
+    add_rewrite_endpoint( 'user', EP_ROOT );
+    add_rewrite_rule('^(\d+)/?', 'index.php?user=$matches[1]', 'top');
+});
+
+
 //Accept Query Var
 add_filter( 'query_vars', function ( $vars ){
-    $vars[] = "id";
+    $vars[] = "user";
     return $vars;
   });

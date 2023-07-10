@@ -8,7 +8,7 @@ function custom_qr_code_logo_ajax_handler() {
     check_ajax_referer('custom_qr_code_logo_ajax_nonce', 'security');
 
     // Retrieve the custom string from the AJAX request
-    $string = get_permalink( get_page_by_path( 'qr' ) ).'&id='.$_POST['string'];
+    $string = site_url()."/".$_POST['string'];
 
     $tempDir = plugin_dir_path(__FILE__) . '../temp/'; // Temporary directory to store QR code image
     if (!is_dir($tempDir)) {

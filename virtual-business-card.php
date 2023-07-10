@@ -39,6 +39,7 @@ register_activation_hook( __FILE__, function (){
             user_id VARCHAR(255) NOT NULL,
             scan int(20),
             client_ip VARCHAR(50) NOT NULL,
+            visit_time DATETIME NOT NULL default CURRENT_TIMESTAMP,
             PRIMARY KEY id (id)
         ) $charset_collate;";
  
@@ -48,8 +49,6 @@ register_activation_hook( __FILE__, function (){
   }
 
 } );
-
-// require_once('inc/create-table.php');
 
 require_once('inc/basic.php');
 

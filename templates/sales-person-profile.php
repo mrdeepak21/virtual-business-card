@@ -3,16 +3,24 @@
 Template Name: Profile Template
 */
 
+wp_enqueue_style( 'sales-person-style', plugins_url( 'style.css', __FILE__ ), false, '1.0', 'all' ); 
+wp_enqueue_script('sales-person-script', plugin_dir_url(__FILE__) . 'script.js',true);
+
 get_header();
-$user_id = trim(get_query_var( 'id' ));
+$user_id = (intval(trim(get_query_var( 'user' )))-1258)/27;
 $ip_addr = getenv('HTTP_CLIENT_IP')?:
 getenv('HTTP_X_FORWARDED_FOR')?:
 getenv('HTTP_X_FORWARDED')?:
 getenv('HTTP_FORWARDED_FOR')?:
 getenv('HTTP_FORWARDED')?:
 getenv('REMOTE_ADDR');
-update_user_meta($user_id, 'scan',intval(get_the_author_meta('scan', $user_id))+1);
 $user_data = get_userdata($user_id);
+if(! $user_data) {global $wp_query;
+    $wp_query->set_404();
+    status_header( 404 );
+    get_template_part( 404 );
+    exit('Invalid Request!');};
+update_user_meta($user_id, 'scan',intval(get_the_author_meta('scan', $user_id))+1);
 global $wpdb;
 $result = $wpdb->query("UPDATE ".TABLE_NAME." SET scan=scan+1 WHERE `client_ip` = '".$ip_addr."' AND `user_id`=".$user_id);
 //If nothing found to update, it will try and create the record.
