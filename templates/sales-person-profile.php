@@ -53,7 +53,7 @@ $avatar_url = $avatar ? wp_get_attachment_url($avatar) : 'https://www.gravatar.c
                         </div>
                 <div class="top">
                     <div class="company-logo">
-                        <img src="<?php echo plugins_url('../img/str-logo.png', __FILE__ );?>" alt="" srcset="">
+                        <img src="<?php echo plugins_url('../img/h-logo.webp', __FILE__ );?>" alt="" srcset="">
                     </div>
                     <div class="entry">                       
                         <div class="profile-photo">
