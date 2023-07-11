@@ -102,10 +102,10 @@ h2{
     transform: translateY(-50%);
     margin-left: 30%;
 }
- 
 
 .profile-photo img{
     border-radius: 50%;
+    width: 200px;
 }
 
 .company-logo{
