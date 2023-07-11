@@ -8,8 +8,16 @@ function add_sales_person_fields($user) {
     <h3><?php _e('Sales Person Information', 'sterling'); ?></h3>
     <table class="form-table">
         <tr>
+            <th><label for="mobile"><?php _e('Mobile', 'sterling'); ?></label></th>
+            <td><input type="tel" name="mobile" id="mobile" value="<?php echo esc_attr(get_the_author_meta('mobile', $user->ID)); ?>" class="regular-text" /></td>
+        </tr>
+        <tr>
             <th><label for="phone"><?php _e('Phone', 'sterling'); ?></label></th>
             <td><input type="tel" name="phone" id="phone" value="<?php echo esc_attr(get_the_author_meta('phone', $user->ID)); ?>" class="regular-text" /></td>
+        </tr>
+        <tr>
+            <th><label for="fax"><?php _e('Fax', 'sterling'); ?></label></th>
+            <td><input type="tel" name="fax" id="fax" value="<?php echo esc_attr(get_the_author_meta('fax', $user->ID)); ?>" class="regular-text" /></td>
         </tr>
         <tr>
             <th><label for="address"><?php _e('Address', 'sterling'); ?></label></th>
@@ -99,7 +107,9 @@ function save_sales_person_fields($user_id) {
         return false;
     }
     // Save custom fields data
+    update_user_meta($user_id, 'mobile', $_POST['mobile']);
     update_user_meta($user_id, 'phone', $_POST['phone']);
+    update_user_meta($user_id, 'fax', $_POST['fax']);
     update_user_meta($user_id, 'address', $_POST['address']);
     update_user_meta($user_id, 'designation', $_POST['designation']);
     update_user_meta($user_id, 'linked_url', $_POST['linked_url']);

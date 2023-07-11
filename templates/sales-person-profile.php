@@ -34,7 +34,9 @@ if ($result === FALSE || $result < 1) {
 
 $user_name = esc_html($user_data->first_name." ".$user_data->last_name);
 $designation = esc_html( get_the_author_meta( 'designation', $user_id) );
+$mobile = esc_html( get_the_author_meta( 'mobile', $user_id) );
 $phone = esc_html( get_the_author_meta( 'phone', $user_id) );
+$fax = esc_html( get_the_author_meta( 'fax', $user_id) );
 $email = esc_html( get_the_author_meta( 'user_email', $user_id) );
 $linkedin = esc_html( get_the_author_meta( 'linked_url', $user_id) );
 $url = esc_html( get_the_author_meta( 'user_url', $user_id) );
@@ -69,7 +71,7 @@ $avatar_url = $avatar ? wp_get_attachment_url($avatar) : 'https://www.gravatar.c
                     </div>
 
                     <div class="contact-details">                    
-                            <a href="tel:+1<?php echo $phone; ?>">
+                            <a href="tel:+1<?php echo empty($mobile)?$phone:$mobile; ?>">
                                 <img src="<?php echo plugins_url('../img/icons/phone-call-orange.png', __FILE__ );?>" class="icon" />
                                 Call
                             </a>                                              
@@ -85,12 +87,28 @@ $avatar_url = $avatar ? wp_get_attachment_url($avatar) : 'https://www.gravatar.c
                     </div>
                 </div>
                 <div class="content">
-                    <?php if(!empty($phone)){ ?>
+                    <?php if(!empty($mobile)){ ?>
+                    <a href="tel: <?php echo $mobile; ?>" class="mobile">
+                        <img src="<?php echo plugins_url( '../img/icons/mobile.png',__FILE__ );?>" class="icon" />
+                        <div>
+                          <span class="mobile-data"> +1 <?php echo $mobile; ?></span>
+                            <p>Mobile</p>
+                        </div>
+                    </a>                   
+                    <?php } if(!empty($phone)){ ?>
                     <a href="tel: <?php echo $phone; ?>" class="phone">
                         <img src="<?php echo plugins_url( '../img/icons/phone-call-black.png',__FILE__ );?>" class="icon" />
                         <div>
                           <span class="phone-data"> +1 <?php echo $phone; ?></span>
-                            <p>Mobile phone</p>
+                            <p>Phone</p>
+                        </div>
+                    </a>
+                    <?php } if(!empty($fax)){ ?>
+                    <a href="#" class="fax">
+                        <img src="<?php echo plugins_url( '../img/icons/fax.png',__FILE__ );?>" class="icon" />
+                        <div>
+                          <span class="fax-data"> +1 <?php echo $fax; ?></span>
+                            <p>Fax</p>
                         </div>
                     </a>
                     <?php }   if(!empty($email)){  ?>
