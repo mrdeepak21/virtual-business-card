@@ -58,4 +58,6 @@ require_once('inc/ajax-response.php');
 
 require_once('inc/admin-menu-page.php');
 
+require_once('inc/user_company.php');
+
 require_once('inc/register-template.php');

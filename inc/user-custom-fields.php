@@ -3,44 +3,70 @@
 function add_sales_person_fields($user) {
     $avatar = get_the_author_meta('avatar', $user->ID);
     $avatar_url = $avatar ? wp_get_attachment_url($avatar) : 'https://www.gravatar.com/avatar/'.md5(get_the_author_meta('user_email', $user->ID));
+    $args = array(
+        'post_type'      => 'user-company',
+        'posts_per_page' => -1,
+    );
+    $query = new WP_Query($args);
 
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            $companies[] = [get_the_ID(),get_the_title()];           
+        }
+        wp_reset_postdata();
+    }
+
+    $selected_company = get_user_meta($user->ID, 'company', true);
     ?>
-    <h3><?php _e('Sales Person Information', 'sterling'); ?></h3>
+    <h3><?php _e('Sales Person Information', 'just-qr'); ?></h3>
     <table class="form-table">
         <tr>
-            <th><label for="mobile"><?php _e('Mobile', 'sterling'); ?></label></th>
+            <th><label for="mobile"><?php _e('Mobile', 'just-qr'); ?></label></th>
             <td><input type="tel" name="mobile" id="mobile" value="<?php echo esc_attr(get_the_author_meta('mobile', $user->ID)); ?>" class="regular-text" /></td>
         </tr>
         <tr>
-            <th><label for="phone"><?php _e('Phone', 'sterling'); ?></label></th>
+            <th><label for="phone"><?php _e('Phone', 'just-qr'); ?></label></th>
             <td><input type="tel" name="phone" id="phone" value="<?php echo esc_attr(get_the_author_meta('phone', $user->ID)); ?>" class="regular-text" /></td>
         </tr>
         <tr>
-            <th><label for="fax"><?php _e('Fax', 'sterling'); ?></label></th>
+            <th><label for="fax"><?php _e('Fax', 'just-qr'); ?></label></th>
             <td><input type="tel" name="fax" id="fax" value="<?php echo esc_attr(get_the_author_meta('fax', $user->ID)); ?>" class="regular-text" /></td>
         </tr>
         <tr>
-            <th><label for="address"><?php _e('Address', 'sterling'); ?></label></th>
+            <th><label for="address"><?php _e('Address', 'just-qr'); ?></label></th>
             <td><input type="text" name="address" id="address" value="<?php echo esc_attr(get_the_author_meta('address', $user->ID)); ?>" class="regular-text" /></td>
         </tr>
+        <tr>         
+            <th><label for="company"><?php _e('Company', 'just-qr'); ?></label></th>
+            <td><select name="company" id="custom_company">
+                    <option value=""><?php _e('Select a Company', 'just-qr'); ?></option>
+                    <?php foreach ($companies as $company) :                     
+                        ?>
+                        <option value="<?php echo esc_attr($company[0]); ?>" <?php selected($selected_company, $company[0]); ?>>
+                            <?php echo esc_attr($company[1]); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select></td>
+        </tr>
         <tr>
-            <th><label for="designation"><?php _e('Designation', 'sterling'); ?></label></th>
+            <th><label for="designation"><?php _e('Designation', 'just-qr'); ?></label></th>
             <td><input type="text" name="designation" id="designation" value="<?php echo esc_attr(get_the_author_meta('designation', $user->ID)); ?>" class="regular-text" /></td>
         </tr>
         <tr>
-            <th><label for="linked"><?php _e('Linkedin Profile', 'sterling'); ?></label></th>
+            <th><label for="linked"><?php _e('Linkedin Profile', 'just-qr'); ?></label></th>
             <td><input type="url" name="linked_url" id="linked" value="<?php echo esc_attr(get_the_author_meta('linked_url', $user->ID)); ?>" class="regular-text" /></td>
         </tr>
         <tr>
-            <th><label for="avatar"><?php _e('Avatar', 'sterling'); ?></label></th>
+            <th><label for="avatar"><?php _e('Avatar', 'just-qr'); ?></label></th>
             <td>
                 <input type="hidden" name="avatar" id="avatar" value="<?php echo esc_attr($avatar); ?>" />
-                <img src="<?php echo esc_url($avatar_url); ?>" width="100" height="100" alt="<?php _e('Avatar', 'sterling'); ?>" />
+                <img src="<?php echo esc_url($avatar_url); ?>" width="100" height="100" alt="<?php _e('Avatar', 'just-qr'); ?>" />
                 <br />
-                <input type="button" class="button" value="<?php _e('Upload Avatar', 'sterling'); ?>" id="upload-avatar-button" />
-                <input type="button" class="button" value="<?php _e('Remove Avatar', 'sterling'); ?>" id="remove-avatar-button" />
+                <input type="button" class="button" value="<?php _e('Upload Avatar', 'just-qr'); ?>" id="upload-avatar-button" />
+                <input type="button" class="button" value="<?php _e('Remove Avatar', 'just-qr'); ?>" id="remove-avatar-button" />
                 <br />
-                <span class="description"><?php _e('Recommended size: 300x300 pixels', 'sterling'); ?></span>
+                <span class="description"><?php _e('Recommended size: 300x300 pixels', 'just-qr'); ?></span>
             </td>
         </tr>
         <!-- Add more fields as needed -->
@@ -62,9 +88,9 @@ function add_sales_person_fields($user) {
 
             // Create the media uploader
             mediaUploader = wp.media({
-                title: '<?php _e('Choose or Upload an Avatar', 'sterling'); ?>',
+                title: '<?php _e('Choose or Upload an Avatar', 'just-qr'); ?>',
                 button: {
-                    text: '<?php _e('Select Avatar', 'sterling'); ?>'
+                    text: '<?php _e('Select Avatar', 'just-qr'); ?>'
                 },
                 multiple: false
             });
@@ -74,7 +100,7 @@ function add_sales_person_fields($user) {
                 var attachment = mediaUploader.state().get('selection').first().toJSON();
 
                 if (attachment.width !== 300 || attachment.height !== 300) {
-                    alert('<?php _e('Please upload an image with dimensions 300x300 pixels.', 'sterling'); ?>');
+                    alert('<?php _e('Please upload an image with dimensions 300x300 pixels.', 'just-qr'); ?>');
                     return;
                 }
 
@@ -111,10 +137,11 @@ function save_sales_person_fields($user_id) {
     update_user_meta($user_id, 'phone', $_POST['phone']);
     update_user_meta($user_id, 'fax', $_POST['fax']);
     update_user_meta($user_id, 'address', $_POST['address']);
+    update_user_meta($user_id, 'company', $_POST['company']);
     update_user_meta($user_id, 'designation', $_POST['designation']);
     update_user_meta($user_id, 'linked_url', $_POST['linked_url']);
     update_user_meta($user_id, 'avatar', $_POST['avatar']);
-    update_user_meta($user_id, 'custom_user_id', genUserName());
+    !metadata_exists( 'user', $user_id, 'custom_user_id')? update_user_meta($user_id, 'custom_user_id', genUserName()):'';
     // Update additional fields as needed
 }
 add_action('personal_options_update', 'save_sales_person_fields');

@@ -45,6 +45,7 @@ if ($result === FALSE || $result < 1) {
 }
 
 $user_name = esc_html($user_data->first_name." ".$user_data->last_name);
+$company_icon = esc_html( get_the_author_meta( 'company', $user_id) );
 $designation = esc_html( get_the_author_meta( 'designation', $user_id) );
 $mobile = esc_html( get_the_author_meta( 'mobile', $user_id) );
 $phone = esc_html( get_the_author_meta( 'phone', $user_id) );
@@ -67,7 +68,7 @@ $avatar_url = $avatar ? wp_get_attachment_url($avatar) : 'https://www.gravatar.c
                         </div>
                 <div class="top">
                     <div class="company-logo">
-                        <img src="<?php echo plugins_url('../img/str-logo.png', __FILE__ );?>" alt="" srcset="">
+                        <img src="<?php echo get_the_post_thumbnail_url( $company_icon,'full'); ?>" alt="<?php echo $company_icon; ?>"  srcset="">
                     </div>
                     <div class="entry">                       
                         <div class="profile-photo">
