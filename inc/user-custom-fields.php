@@ -114,6 +114,7 @@ function save_sales_person_fields($user_id) {
     update_user_meta($user_id, 'designation', $_POST['designation']);
     update_user_meta($user_id, 'linked_url', $_POST['linked_url']);
     update_user_meta($user_id, 'avatar', $_POST['avatar']);
+    update_user_meta($user_id, 'custom_user_id', genUserName());
     // Update additional fields as needed
 }
 add_action('personal_options_update', 'save_sales_person_fields');

@@ -37,15 +37,15 @@ function display_sales_persons() {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $user) : 
+                <?php foreach ($users as $user) :
                     $avatar = get_the_author_meta('avatar', $user->ID);
                     $avatar_url = $avatar ? wp_get_attachment_url($avatar) : 'https://www.gravatar.com/avatar/'.md5(get_the_author_meta('user_email', $user->ID));
                     $name =  esc_html(get_the_author_meta('first_name', $user->ID)." ".get_the_author_meta('last_name', $user->ID));
-                    $url_id = (intval($user->ID)*27)+1258;
-                    $url = site_url()."/".$url_id;
+                    $url_id = esc_html(get_the_author_meta('custom_user_id', $user->ID));
+                    $url = site_url()."/".esc_html(get_the_author_meta('custom_user_id', $user->ID));;
                     ?>
                     <tr>                      
-                        <td><img src="<?php echo esc_url($avatar_url); ?>" width="50" height="50"><br><button class="button open-popup" onclick="show_qr(`<?php echo $url_id.'`,`'.$name; ?>`)">Show QR</button></td>                       
+                        <td><img src="<?php echo esc_url($avatar_url); ?>" width="50" height="50"><br><button class="button open-popup" onclick="show_qr(`<?php echo $url_id.'`,`'.$name; ?>`)">Show QR</button><br><a href="<?php echo get_edit_user_link( $user->ID);?>"  target="_blank">Edit User</a></td>                       
                         <td><a href="<?php echo $url; ?>" target="_blank"><?php echo $name; ?></a></td>
                         <td><?php echo esc_html(get_the_author_meta('user_email', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('phone', $user->ID)); ?></td>

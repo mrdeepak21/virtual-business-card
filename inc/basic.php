@@ -61,7 +61,7 @@ function prefix_hide_personal_options() {
 // Register the user data endpoint
 add_action( 'init', function () {
     add_rewrite_endpoint( 'user', EP_ROOT );
-    add_rewrite_rule('^(\d+)/?', 'index.php?user=$matches[1]', 'top');
+    add_rewrite_rule('^([a-zA-Z\d-]+)/?', 'index.php?user=$matches[1]', 'top');
 });
 
 
@@ -70,3 +70,17 @@ add_filter( 'query_vars', function ( $vars ){
     $vars[] = "user";
     return $vars;
   });
+
+  function genUserName() {
+    $len = 8;
+    $string = substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyz', ceil($len/strlen($x)) )),1,$len);
+if(!get_users(array(
+      'meta_key' => 'custom_user_id',
+      'meta_value' => $string,
+      'number' => 1
+     )
+    )
+   ){ return $string;} else {
+    genUserName();
+   } 
+  }
