@@ -45,7 +45,7 @@ function display_sales_persons() {
                     $url = site_url()."/".esc_html(get_the_author_meta('custom_user_id', $user->ID));;
                     ?>
                     <tr>                      
-                        <td><img src="<?php echo esc_url($avatar_url); ?>" width="50" height="50"><br><button class="button open-popup" onclick="show_qr(`<?php echo $url_id.'`,`'.$name; ?>`)">Show QR</button><br><a href="<?php echo get_edit_user_link( $user->ID);?>"  target="_blank">Edit User</a></td>                       
+                        <td><img src="<?php echo esc_url($avatar_url); ?>" width="50" height="50"><br><button class="button open-popup" onclick="show_qr(`<?php echo $user->ID.'`,`'.$name; ?>`)">Show QR</button><br><a href="<?php echo get_edit_user_link( $user->ID);?>"  target="_blank">Edit User</a></td>                       
                         <td><a href="<?php echo $url; ?>" target="_blank"><?php echo $name; ?></a></td>
                         <td><?php echo esc_html(get_the_author_meta('user_email', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('phone', $user->ID)); ?></td>
@@ -82,7 +82,7 @@ function display_sales_persons() {
     function show_qr(id,name){
         
         jQuery(document).ready(function($) {
-        jQuery('.popup_modal .html').html(`<h2>QR Code for <i>${name}</i></h2><div id='qr'><h1>Generating...!</h1></div><a href="${void(0)}" id="download" class="button" download="QR-Code">Download QR Code</a>`); 
+        jQuery('.popup_modal .html').html(`<h2>QR Code for <i>${name}</i></h2><div id='qr'><h1>Generating...!</h1></div><br><a href="${void(0)}" id="download" class="button" download="QR-Code">Download QR Code</a>`); 
         
     // AJAX request
     $.ajax({

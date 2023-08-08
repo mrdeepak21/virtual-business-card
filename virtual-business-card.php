@@ -19,7 +19,7 @@
  * Text Domain:       sterling
  * Domain Path:       /languages
  */
-
+// @ini_set('display_errors',1);
 // Hook into the plugin activation
 global $wpdb;
 define('TABLE_NAME',$wpdb->prefix . 'virtual_card_scan_analytics');
@@ -35,11 +35,12 @@ register_activation_hook( __FILE__, function (){
   if($wpdb->get_var( "show tables like ".TABLE_NAME) != TABLE_NAME ) 
   {
         $sql = "CREATE TABLE ".TABLE_NAME." (
-            id INT(11) NOT NULL AUTO_INCREMENT,
-            user_id VARCHAR(255) NOT NULL,
-            scan int(20),
-            client_ip VARCHAR(50) NOT NULL,
-            visit_time DATETIME default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+            `id` INT(11) NOT NULL AUTO_INCREMENT,
+            `user_id` VARCHAR(255) NOT NULL,
+            `scan` INT(20) NOT NULL,
+            `btn_click` INT(20) NOT NULL,
+            `client_ip` VARCHAR(50) NOT NULL,
+            `visit_time` DATETIME default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
             PRIMARY KEY id (id)
         ) $charset_collate;";
  
@@ -51,6 +52,8 @@ register_activation_hook( __FILE__, function (){
 } );
 
 require_once('inc/basic.php');
+
+require_once('inc/custom-rest-api.php');
 
 require_once('inc/user-custom-fields.php');
 

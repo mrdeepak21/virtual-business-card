@@ -3,6 +3,7 @@
 Template Name: Profile Template
 */
 
+wp_enqueue_script('jquery', home_url( '/javascript/jquery.js' ),false);
 wp_enqueue_style( 'sales-person-style', plugins_url( 'style.css', __FILE__ ), false, '1.0', 'all' ); 
 wp_enqueue_script('sales-person-script', plugin_dir_url(__FILE__) . 'script.js',true);
 
@@ -26,7 +27,7 @@ $user =get_users(
     $wp_query->set_404();
     status_header( 404 );
     get_template_part( 404 );
-    exit('Invalid Request!');}
+    exit('User Not Found!');}
 
 $user_id = intval($user[0]->data->ID);
 $user_data = get_userdata($user_id);
@@ -68,14 +69,15 @@ $avatar_url = $avatar ? wp_get_attachment_url($avatar) : 'https://www.gravatar.c
                         </div>
                 <div class="top">
                     <div class="company-logo">
-                        <img src="<?php echo get_the_post_thumbnail_url( $company_icon,'full'); ?>" alt="<?php echo $company_icon; ?>"  srcset="">
+                        <img src="<?php echo get_the_post_thumbnail_url( $company_icon,'full'); ?>" alt="<?php echo get_the_title( $company_icon); ?>"">
+                        <span style="display:none" id="company"><?php echo get_the_title( $company_icon); ?> </span>
                     </div>
                     <div class="entry">                       
                         <div class="profile-photo">
                             <img src="<?php echo esc_attr_e( $avatar_url, 'sterling' ) ?>" alt="" srcset=""
                                 width="200" height="200">
                         </div>
-                        <h1 class="entry-title">
+                        <h1 class="entry-title" data-id=" <?php echo $user_id; ?>">
                             <?php echo $user_name; ?>
                         </h1>
                         <h2 class="designation">
@@ -165,4 +167,10 @@ $avatar_url = $avatar ? wp_get_attachment_url($avatar) : 'https://www.gravatar.c
     </a>
 </footer>
 </div>
+<script>
+    $=jQuery.noConflict();
+    $('a').click(function(e){
+        // $.post('',1);
+    });
+</script>
 <?php get_footer(); ?>

@@ -40,7 +40,7 @@ function create_user_company_post_type() {
             'hierarchical'          => false,            
             'show_ui'               => true,
             'show_in_menu'          => true,
-            'menu_position'         => 5,
+            'menu_position'         => 26,
             'menu_icon'             => 'dashicons-building',
             'show_in_admin_bar'     => true,
             'show_in_nav_menus'     => true,
