@@ -110,7 +110,7 @@ function display_sales_persons() {
             var bgWidth = logoWidth + 2 * padding;
             var bgHeight = logoHeight + 2 * padding;
 
-            ctx.fillStyle = "#ffffff"; // Replace with your desired background color
+            ctx.fillStyle = "#ffeaa7"; // Replace with your desired background color
             ctx.fillRect(bgX, bgY, bgWidth, bgHeight);
 
             // Draw logo image on top of the background rectangle

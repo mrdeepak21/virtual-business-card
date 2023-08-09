@@ -56,7 +56,7 @@ $linkedin = esc_html( get_the_author_meta( 'linked_url', $user_id) );
 $url = esc_html( get_the_author_meta( 'user_url', $user_id) );
 $address = esc_html( get_the_author_meta( 'address', $user_id) );
 $avatar = get_the_author_meta('avatar', $user_id);
-$avatar_url = $avatar ? wp_get_attachment_url($avatar) : 'https://www.gravatar.com/avatar/'.md5($email);
+$avatar_url = $avatar ? wp_get_attachment_url($avatar) : plugin_dir_url(__FILE__ ).'../img/dummy.webp';
 
 ?>
 
