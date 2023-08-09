@@ -86,51 +86,51 @@ function custom_qr_code_logo_ajax_handler() {
     $qr_code = $tempDir . 'qr_code.png';
     $targetLogoPath = $tempDir.'logo.png';
 
-    if (!is_dir($tempDir)) {
-        mkdir($tempDir);
-    }
+    // if (!is_dir($tempDir)) {
+    //     mkdir($tempDir);
+    // }
 
-    QRcode::png($string, $qr_code, QR_ECLEVEL_H, 1000, 0); // Generate QR code image with a fixed size of 1000
+    // QRcode::png($string, $qr_code, QR_ECLEVEL_H, 1000, 0); // Generate QR code image with a fixed size of 1000
 
     // create the logo from image file
-    if (!empty($logoPath)) {
+    // if (!empty($logoPath)) {
 
-        recreateLogo($logoPath, $targetLogoPath);
+    //     recreateLogo($logoPath, $targetLogoPath);
 
-        $logo = imagecreatefrompng($targetLogoPath);
+    //     $logo = imagecreatefrompng($targetLogoPath);
 
-        $qrCode = imagecreatefrompng($qr_code);
+    //     $qrCode = imagecreatefrompng($qr_code);
 
-        $qrWidth = imagesx($qrCode);
-        $qrHeight = imagesy($qrCode);
+    //     $qrWidth = imagesx($qrCode);
+    //     $qrHeight = imagesy($qrCode);
 
-        $logoWidth = getimagesize($targetLogoPath)[0];
-        $logoHeight = getimagesize($targetLogoPath)[1];
+    //     $logoWidth = getimagesize($targetLogoPath)[0];
+    //     $logoHeight = getimagesize($targetLogoPath)[1];
 
-        $logoX = ($qrWidth -  $logoWidth) / 2;
-        $logoY = ($qrHeight -  $logoHeight ) / 2;
+    //     $logoX = ($qrWidth -  $logoWidth) / 2;
+    //     $logoY = ($qrHeight -  $logoHeight ) / 2;
 
-        // Merge the QR code and logo
-        imagecopy($qrCode, $logo, $logoX, $logoY, 0, 0, $logoWidth, $logoHeight);
+    //     // Merge the QR code and logo
+    //     imagecopy($qrCode, $logo, $logoX, $logoY, 0, 0, $logoWidth, $logoHeight);
 
-        // Save the final image
-        imagepng($qrCode, $qr_code);
+    //     // Save the final image
+    //     imagepng($qrCode, $qr_code);
 
-        // Free up memory
-        imagedestroy($logo);
-        imagedestroy($qrCode);
-        unlink($targetLogoPath);
-    }
+    //     // Free up memory
+    //     imagedestroy($logo);
+    //     imagedestroy($qrCode);
+    //     unlink($targetLogoPath);
+    // }
 
     // Output the image as a data URI
-    $image_src = 'data:image/png;base64,' . base64_encode(file_get_contents($qr_code));
+    // $image_src = 'data:image/png;base64,' . base64_encode(file_get_contents($qr_code));
 
     // Generate the HTML code for the QR code image
-    $qr_code_html = '<img src="' . $image_src . '" alt="QR Code with Logo" width="300">';
+    // $qr_code_html = '<img src="' . $image_src . '" alt="QR Code with Logo" width="300">';
     
     unlink($qr_code);
     // Return the HTML code in the AJAX response
-    wp_send_json_success($image_src);
+    // wp_send_json_success($image_src);
 }
 
 // AJAX handler for showing scan Analytics

@@ -1,5 +1,5 @@
 <?php
-
+@ini_set('display_errors',1);
 /*
  * @package           virtual-business-card
  * @author            Deepak Kumar
@@ -38,7 +38,7 @@ register_activation_hook( __FILE__, function (){
             `id` INT(11) NOT NULL AUTO_INCREMENT,
             `user_id` VARCHAR(255) NOT NULL,
             `scan` INT(20) NOT NULL,
-            `btn_click` INT(20) NOT NULL,
+            `btn_click` INT(20) DEFAULT 0,
             `client_ip` VARCHAR(50) NOT NULL,
             `visit_time` DATETIME default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
             PRIMARY KEY id (id)

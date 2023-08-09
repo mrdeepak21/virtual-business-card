@@ -168,9 +168,15 @@ $avatar_url = $avatar ? wp_get_attachment_url($avatar) : 'https://www.gravatar.c
 </footer>
 </div>
 <script>
-    $=jQuery.noConflict();
-    $('a').click(function(e){
-        // $.post('',1);
-    });
+    // $=jQuery.noConflict();
+    // $('a').click(function(e){
+    //     $.post(
+    //         "<?php echo site_url().'/wp-json/analytics/btnclick'; ?>",
+    //         {uid:<?php echo $user_id; ?>},
+    //         function(data,status){
+    //             console.log(data);
+    //             console.log(status);
+    //             });
+    //         });
 </script>
 <?php get_footer(); ?>

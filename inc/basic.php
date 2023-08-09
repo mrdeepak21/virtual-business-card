@@ -1,7 +1,13 @@
 <?php
 
 //phpqrcode lib
-require_once plugin_dir_path(__FILE__) . '../inc/phpqrcode/qrlib.php';
+// require_once plugin_dir_path(__FILE__) . '../inc/phpqrcode/qrlib.php';
+
+// Enqueue QR and Chart.js library
+add_action('admin_enqueue_scripts', function() {
+    wp_enqueue_script('qrcode', plugin_dir_url(__FILE__).'../js/qrcode.min.js','1.0');
+    wp_enqueue_script('chart-js', 'https://cdn.jsdelivr.net/npm/chart.js');
+});
 
 // Add custom user type
 add_action('init', function () {

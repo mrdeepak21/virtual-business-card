@@ -6,18 +6,13 @@ add_action( 'rest_api_init', function (){
         'methods'=>'POST',
         'callback'=> function ($data)
         {
-            $ip_addr = getenv('HTTP_CLIENT_IP')?:
-            getenv('HTTP_X_FORWARDED_FOR')?:
-            getenv('HTTP_X_FORWARDED')?:
-            getenv('HTTP_FORWARDED_FOR')?:
-            getenv('HTTP_FORWARDED')?:
-            getenv('REMOTE_ADDR');
+            $ip_addr = '127.0.0.1';
             $user_id = intval(sanitize_text_field($data['uid']));
          if(!empty($user_id)){
             global $wpdb;
-            $query = sprintf("UPDATE %s SET `btn_click`=1 WHERE `client_ip` = %s AND `user_id`= %d",TABLE_NAME,$ip_addr,$user_id);
-            $res = $wpdb->query($query);
-            // var_dump($wpdb->last_query);
+            
+            $res = $wpdb->query("UPDATE ".TABLE_NAME." SET btn_click=btn_click+1 WHERE `user_id`={$user_id} AND `client_ip`= {$ip_addr}");
+            echo $res;
          }
         }
     ]);
