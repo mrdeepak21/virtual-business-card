@@ -35,7 +35,7 @@ function display_sales_persons() {
             <tbody>
                 <?php foreach ($users as $user) :
                     $avatar = get_the_author_meta('avatar', $user->ID);
-                    $avatar_url = !empty($avatar) ? wp_get_attachment_url($avatar) : 'https://www.gravatar.com/avatar/'.md5(get_the_author_meta('user_email', $user->ID));
+                    $avatar_url = !empty($avatar) ? wp_get_attachment_url($avatar) :  plugin_dir_url(__FILE__ ).'../img/dummy.webp';
                     $name =  esc_html(get_the_author_meta('first_name', $user->ID)." ".get_the_author_meta('last_name', $user->ID));
                     $url_id = esc_html(get_the_author_meta('custom_user_id', $user->ID));
                     $url = site_url()."/".esc_html(get_the_author_meta('custom_user_id', $user->ID));
@@ -76,7 +76,7 @@ function display_sales_persons() {
     function show_qr(data){
       var [name,url,logo] = data;
         jQuery(document).ready(function($) {
-        jQuery('.popup_modal .html').html(`<h2>QR Code for <i>${name}</i></h2><div id='qr'></div><br><a href="${void(0)}" id="download" class="button" download="QR-Code">Download QR Code</a>`); 
+        jQuery('.popup_modal .html').html(`<h2>QR Code for <i>${name}</i></h2><div id='qr'></div><br><a href="${void(0)}" id="download" class="button" download="${name}">Download QR Code</a>`); 
         let qrdim = 500;
         var qrcode = new QRCode(document.getElementById("qr"), {
             text: url,
@@ -115,31 +115,8 @@ function display_sales_persons() {
 
             // Draw logo image on top of the background rectangle
             ctx.drawImage(logoImage, logoX, logoY, logoWidth, logoHeight);
+            jQuery("#download").attr('href',canvas.toDataURL());
         };
-    // AJAX request
-            // $.ajax({
-            //     url: '<?php echo admin_url('admin-ajax.php'); ?>',
-            //     type: 'POST',
-            //     data: {
-            //         action: 'custom_qr_code_logo',
-            //         security: '<?php echo  wp_create_nonce('custom_qr_code_logo_ajax_nonce'); ?>',
-            //         string: id, // Replace with the actual custom string
-            //     },
-            //     success: function(response) {
-            //         if (response.success) {
-            //             // Display the QR code image in a container                      
-                        
-            //         } else {
-            //             // Handle error
-            //             $('.popup_modal #qr').html(response.data);
-            //         }
-            //     },
-            //     error: function(xhr, status, error) {
-            //         // Handle error
-            //         $('.popup_modal #qr').html(xhr+"<br>"+status+"<br>"+error);
-            //         console.log(xhr);
-            //     }
-            // });
         });
     }
 

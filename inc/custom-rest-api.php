@@ -16,4 +16,21 @@ add_action( 'rest_api_init', function (){
          }
         }
     ]);
+
+    register_rest_route('validate','customUserId',[
+        'methods'=>'GET',
+        'callback'=> function ($data)
+        {
+            $id = $data['data'];
+            $user =get_users(
+                array(
+                 'meta_key' => 'custom_user_id',
+                 'meta_value' => $id,
+                 'number' => 1
+                )
+               );
+               !$user ?  wp_send_json_success(true):  wp_send_json_error(false);
+            // print_r($id);
+        }
+    ]);
 });

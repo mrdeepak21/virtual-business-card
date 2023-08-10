@@ -90,3 +90,25 @@ if(!get_users(array(
     genUserName();
    } 
   }
+
+  function check_custom_userId($string) {
+    if(!get_users(array(
+        'meta_key' => 'custom_user_id',
+        'meta_value' => $string,
+        'number' => 1
+       )
+      )
+     ) { return $string;} 
+     else {
+    //    show_errors();
+        return '';
+     }
+  }
+
+//   function show_errors()
+//   {
+//     global $errors;
+//     $errors = new WP_Error();
+//         $errors->add('user_login_error',__('This URL string already exists, please try again'));
+//         return $errors;
+//   }
