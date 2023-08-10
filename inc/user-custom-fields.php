@@ -140,7 +140,7 @@ function add_sales_person_fields($user) {
 
         //Validate Custom string url
         var re = /^[a-zA-Z0-9+=\-/@#_]+$/g;
-        $('#custom_id').keyup(function(e){
+        $('#custom_id').on('input keyup change',function(e){
             $('#custom_id_error').html('').removeAttr('class');
          if($(this).val()!='') {
         if(re.test($(this).val()))   { 
