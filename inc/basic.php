@@ -67,6 +67,7 @@ function prefix_hide_personal_options() {
 // Register the user data endpoint
 add_action( 'init', function () {
     add_rewrite_endpoint( 'user', EP_ROOT );
+    add_rewrite_rule('^dashboard/([a-zA-Z\d-]+)/?', 'index.php?pagename=dashboard&dash_param=$matches[1]', 'top');
     add_rewrite_rule('^([a-zA-Z\d-]+)/?', 'index.php?user=$matches[1]', 'top');
 });
 
@@ -74,6 +75,11 @@ add_action( 'init', function () {
 //Accept Query Var
 add_filter( 'query_vars', function ( $vars ){
     $vars[] = "user";
+    return $vars;
+  });
+//Accept Query Var
+add_filter( 'query_vars', function ( $vars ){
+    $vars[] = "dash_param";
     return $vars;
   });
 

@@ -9,3 +9,16 @@ add_action( 'template_redirect', function () {
       exit();
   }
 } );
+
+
+
+// Load the admin dash template
+add_action( 'template_redirect', function () {
+  global $wp_query;
+  // Check if the user endpoint is requested
+  if ( isset( $wp_query->query_vars['dash_param'] ) ) {
+      // Load the template file
+      include( plugin_dir_path( __FILE__ ) . '../templates/dashboard.php' );
+      exit();
+  }
+} );
