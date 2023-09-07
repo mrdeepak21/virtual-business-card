@@ -9,7 +9,6 @@ use Passbook\Pass\Image;
 use Passbook\Pass\Structure;
 use Passbook\Type\EventTicket;
 
-$file_name = 'user';
 $outputDirectory =plugin_dir_path( __FILE__ ).'../apple-passes/';
 if (!file_exists($outputDirectory)) {
     mkdir($outputDirectory, 0777, true);
@@ -66,6 +65,7 @@ $pass->setBarcode($barcode);
 // Create pass factory instance
 $factory = new PassFactory(PASS_TYPE_IDENTIFIER, TEAM_IDENTIFIER, ORGANIZATION_NAME, P12_FILE, P12_PASSWORD, WWDR_FILE);
 $factory->setOutputPath(OUTPUT_PATH);
-$result =  $factory->package($pass,$file_name);
+$result =  $factory->package($pass,'user');
 
-echo '<a href="'.plugins_url('../apple-passes/',__FILE__).$file_name.'.pkpass">Download</a>';
+
+echo '<a href="'.plugins_url('../apple-passes/',__FILE__).$result->getFilename().'" download="'.$result->getFilename().'">Download</a>';
