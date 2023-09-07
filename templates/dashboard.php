@@ -1,6 +1,6 @@
 <?php
 
-require(plugin_dir_path( __FILE__ ) .'../vendor/autoload.php');
+require_once(plugin_dir_path( __FILE__ ) .'../vendor/autoload.php');
 
 use Passbook\PassFactory;
 use Passbook\Pass\Barcode;
@@ -26,9 +26,9 @@ define('ICON_FILE',  plugin_dir_path( __FILE__ ) .'../img/icon.png');
 define('LOGO_FILE',  plugin_dir_path( __FILE__ ) .'../img/logo.png');
 
 // Create an event ticket
-$pass = new Generic("1234567890", "The Beat Goes On");
+$pass = new Generic("Username", "Username");
 $pass->setBackgroundColor('rgb(60, 65, 76)');
-$pass->setLogoText('Apple Inc.');
+$pass->setLogoText('Heigh10');
 
 // Create pass structure
 $structure = new Structure();
@@ -39,9 +39,9 @@ $primary->setLabel('Name');
 $structure->addPrimaryField($primary);
 
 // // Add secondary field
-// $secondary = new Field('location', 'Moscone West');
-// $secondary->setLabel('Location');
-// $structure->addSecondaryField($secondary);
+$secondary = new Field('membership', 'Designation');
+$secondary->setLabel('Designation');
+$structure->addSecondaryField($secondary);
 
 // // Add auxiliary field
 // $auxiliary = new Field('datetime', '2013-04-15 @10:25');
@@ -54,6 +54,9 @@ $pass->addImage($icon);
 //add logo image
 $logo = new Image( LOGO_FILE, 'logo' );
 $pass->addImage( $logo );
+//add thumb image
+$thumb = new Image( ICON_FILE, 'thumbnail' );
+$pass->addImage( $thumb );
 
 // Set pass structure
 $pass->setStructure($structure);
@@ -68,4 +71,4 @@ $factory->setOutputPath(OUTPUT_PATH);
 $result =  $factory->package($pass,'user');
 
 
-echo '<a href="'.plugins_url('../apple-passes/',__FILE__).$result->getFilename().'" download="'.$result->getFilename().'">Download</a>';
+echo '<h1><a href="'.plugins_url('../apple-passes/',__FILE__).$result->getFilename().'" download="'.$result->getFilename().'">Download</a></h1>';
