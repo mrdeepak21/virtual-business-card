@@ -7,7 +7,7 @@ use Passbook\Pass\Barcode;
 use Passbook\Pass\Field;
 use Passbook\Pass\Image;
 use Passbook\Pass\Structure;
-use Passbook\Type\EventTicket;
+use Passbook\Type\Generic;
 
 $outputDirectory =plugin_dir_path( __FILE__ ).'../apple-passes/';
 if (!file_exists($outputDirectory)) {
@@ -26,7 +26,7 @@ define('ICON_FILE',  plugin_dir_path( __FILE__ ) .'../img/icon.png');
 define('LOGO_FILE',  plugin_dir_path( __FILE__ ) .'../img/logo.png');
 
 // Create an event ticket
-$pass = new EventTicket("1234567890", "The Beat Goes On");
+$pass = new Generic("1234567890", "The Beat Goes On");
 $pass->setBackgroundColor('rgb(60, 65, 76)');
 $pass->setLogoText('Apple Inc.');
 
@@ -34,19 +34,19 @@ $pass->setLogoText('Apple Inc.');
 $structure = new Structure();
 
 // Add primary field
-$primary = new Field('event', 'The Beat Goes On');
-$primary->setLabel('Event');
+$primary = new Field('name', 'Username');
+$primary->setLabel('Name');
 $structure->addPrimaryField($primary);
 
-// Add secondary field
-$secondary = new Field('location', 'Moscone West');
-$secondary->setLabel('Location');
-$structure->addSecondaryField($secondary);
+// // Add secondary field
+// $secondary = new Field('location', 'Moscone West');
+// $secondary->setLabel('Location');
+// $structure->addSecondaryField($secondary);
 
-// Add auxiliary field
-$auxiliary = new Field('datetime', '2013-04-15 @10:25');
-$auxiliary->setLabel('Date & Time');
-$structure->addAuxiliaryField($auxiliary);
+// // Add auxiliary field
+// $auxiliary = new Field('datetime', '2013-04-15 @10:25');
+// $auxiliary->setLabel('Date & Time');
+// $structure->addAuxiliaryField($auxiliary);
 
 // Add icon image
 $icon = new Image(ICON_FILE, 'icon');
