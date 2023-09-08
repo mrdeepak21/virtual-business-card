@@ -27,6 +27,14 @@ $user =get_users(
     status_header( 404 );
     get_template_part( 404 );
     exit('User Not Found!');}
+    require_once(plugin_dir_path( __FILE__ ) .'../vendor/autoload.php');
+
+use Passbook\PassFactory;
+use Passbook\Pass\Barcode;
+use Passbook\Pass\Field;
+use Passbook\Pass\Image;
+use Passbook\Pass\Structure;
+use Passbook\Type\Generic;
 
 $user_id = intval($user[0]->data->ID);
 $user_data = get_userdata($user_id);
@@ -44,17 +52,10 @@ $bg_g = 234;
 $bg_b = 167;
 $bg_color = 'rgb('.$bg_r.', '.$bg_g.', '.$bg_b.')';
 
-require_once(plugin_dir_path( __FILE__ ) .'../vendor/autoload.php');
-
-use Passbook\PassFactory;
-use Passbook\Pass\Barcode;
-use Passbook\Pass\Field;
-use Passbook\Pass\Image;
-use Passbook\Pass\Structure;
-use Passbook\Type\Generic;
-
 function createpng($src,$filename){
-    global $bg_r,$bg_g,$bg_b; 
+    $bg_r = 255;
+    $bg_g = 234;
+    $bg_b = 167;
     // Path to the source image
     $sourceImagePath = $src;    
    // Check the file type
