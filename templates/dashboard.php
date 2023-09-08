@@ -54,7 +54,7 @@ function createpng($src,$filename){
     $imageType = exif_imagetype($sourceImagePath);
 
  // Supported image types: IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_GIF, IMAGETYPE_BMP, etc.
-    if ($imageType === IMAGETYPE_JPEG || $imageType === IMAGETYPE_PNG || $imageType === IMAGETYPE_GIF) {
+    if ($imageType === IMAGETYPE_JPEG || $imageType === IMAGETYPE_PNG || $imageType === IMAGETYPE_WEBP) {
     // Load the source image based on the detected file type
      switch ($imageType) {
         case IMAGETYPE_JPEG:
@@ -64,8 +64,12 @@ function createpng($src,$filename){
             $sourceImage = imagecreatefrompng($sourceImagePath);
             break;
         case IMAGETYPE_WEBP:
-            $sourceImage = imagecreatefromwebp($sourceImagePath);
-            break;
+            if (function_exists('imagecreatefromwebp')) {
+                $sourceImage = imagecreatefromwebp($sourceImagePath);
+            } else {
+                echo 'WebP support is not enabled in your PHP installation.';
+                exit;
+            }
         default:
             $sourceImage = false;
             break;
