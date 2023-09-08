@@ -27,13 +27,15 @@ $user =get_users(
     status_header( 404 );
     get_template_part( 404 );
     exit('User Not Found!');}
-    $user_id = intval($user[0]->data->ID);
-$user_data = get_userdata($user_id);
 
+$user_id = intval($user[0]->data->ID);
+$user_data = get_userdata($user_id);
 $username = esc_html($user_data->first_name." ".$user_data->last_name);
 $avatar = get_the_author_meta('avatar', $user_id);
-$image = $avatar ? wp_get_original_image_path($avatar) : plugin_dir_path(__FILE__ ).'../img/dummy.png';
-$url = esc_html( get_the_author_meta( 'user_url', $user_id) );
+$image1 = $avatar ? wp_get_attachment_url($avatar) : plugin_dir_path(__FILE__ ).'../img/dummy.png';
+$pngthumb = createpng($image1,'thumb_'.$user_id);
+$image2 = get_the_post_thumbnail_url(esc_html( get_the_author_meta( 'company', $user_id) ),'full');
+$pnglogo = createpng($image2,'logo_'.$user_id);
 $designation = esc_html( get_the_author_meta( 'designation', $user_id) );
 
 require_once(plugin_dir_path( __FILE__ ) .'../vendor/autoload.php');
@@ -45,9 +47,58 @@ use Passbook\Pass\Image;
 use Passbook\Pass\Structure;
 use Passbook\Type\Generic;
 
+function createpng($src,$filename){
+    // Path to the source image
+    $sourceImagePath = $src;    
+   // Check the file type
+    $imageType = exif_imagetype($sourceImagePath);
+
+ // Supported image types: IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_GIF, IMAGETYPE_BMP, etc.
+    if ($imageType === IMAGETYPE_JPEG || $imageType === IMAGETYPE_PNG || $imageType === IMAGETYPE_GIF) {
+    // Load the source image based on the detected file type
+     switch ($imageType) {
+        case IMAGETYPE_JPEG:
+            $sourceImage = imagecreatefromjpeg($sourceImagePath);
+            break;
+        case IMAGETYPE_PNG:
+            $sourceImage = imagecreatefrompng($sourceImagePath);
+            break;
+        case IMAGETYPE_WEBP:
+            $sourceImage = imagecreatefromwebp($sourceImagePath);
+            break;
+        default:
+            $sourceImage = false;
+            break;
+     }
+    
+    if ($sourceImage) {
+        // Get the dimensions of the source image
+        $width = imagesx($sourceImage);
+        $height = imagesy($sourceImage);
+    
+        // Create a blank PNG image with the same dimensions
+        $outputImage = imagecreatetruecolor($width, $height);
+    
+        // Copy the source image to the blank PNG image
+        imagecopy($outputImage, $sourceImage, 0, 0, 0, 0, $width, $height);
+    
+        // Path where you want to save the PNG image
+        $outputImagePath = plugin_dir_path( __FILE__ ).'../img/'.$filename.'.png';
+    
+        // Save the PNG image to the specified path
+        imagepng($outputImage, $outputImagePath);
+    
+        // Free up memory by destroying the image resources
+        imagedestroy($sourceImage);
+        // imagedestroy($outputImage);  
+        return $outputImagePath;  
+    }
+    }
+}
+
 $outputDirectory = plugin_dir_path( __FILE__ ).'../apple-passes/';
+
 if(!file_exists($outputDirectory.$data.'.pkpass')) {
-    echo '1';
 if (!file_exists($outputDirectory)) {
     mkdir($outputDirectory, 0777, true);
 }
@@ -61,8 +112,8 @@ define('TEAM_IDENTIFIER', 'PH23YH2YN9');
 define('ORGANIZATION_NAME', 'Heigh10');
 define('OUTPUT_PATH',  $outputDirectory);
 define('ICON_FILE',  plugin_dir_path( __FILE__ ) .'../img/icon.png');
-define('LOGO_FILE',  plugin_dir_path( __FILE__ ) .'../img/logo.png');
-define('THUMB_FILE',  $image);
+define('LOGO_FILE',  $pnglogo);
+define('THUMB_FILE', $pngthumb);
 
 // Create an event ticket
 $pass = new Generic($username, $username);
@@ -79,7 +130,7 @@ $structure->addPrimaryField($primary);
 
 // // Add secondary field
 $secondary = new Field('membership', $designation);
-$secondary->setLabel($designation);
+$secondary->setLabel('Designation');
 $structure->addSecondaryField($secondary);
 
 // Add icon image
@@ -103,9 +154,11 @@ $pass->setBarcode($barcode);
 $factory = new PassFactory(PASS_TYPE_IDENTIFIER, TEAM_IDENTIFIER, ORGANIZATION_NAME, P12_FILE, P12_PASSWORD, WWDR_FILE);
 $factory->setOutputPath(OUTPUT_PATH);
 $factory->package($pass,$data);
+unlink($pngthumb);
+unlink($pnglogo);
 }
 
-echo '<h1><a href="'.plugins_url('../apple-passes/',__FILE__).$data.'.pkpass " download="'.$data.'.pkpass">Download</a></h1>';
+echo '<h1><a href="'.plugins_url('../apple-passes/',__FILE__).$data.'.pkpass " download="'.$data.'.pkpass"> Add to apple wallet</a></h1>';
 ?>
 <body>
     
