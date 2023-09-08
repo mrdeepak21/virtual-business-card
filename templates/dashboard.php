@@ -1,12 +1,4 @@
 <?php
-
-$ip_addr = getenv('HTTP_CLIENT_IP')?:
-getenv('HTTP_X_FORWARDED_FOR')?:
-getenv('HTTP_X_FORWARDED')?:
-getenv('HTTP_FORWARDED_FOR')?:
-getenv('HTTP_FORWARDED')?:
-getenv('REMOTE_ADDR');
-
 $data = trim(sanitize_text_field(get_query_var( 'dash_param' )));
 $user =get_users(
     array(
@@ -39,16 +31,18 @@ $company_id = esc_html( get_the_author_meta( 'company', $user_id) );
 $image2 = get_the_post_thumbnail_url($company_id,'full');
 $company_title = get_the_title($company_id);
 $pnglogo = createpng($image2,'logo_'.$user_id);
-$designation = esc_html( get_the_author_meta( 'designation', $user_id) );
-$bg_r = 255;
-$bg_g = 234;
-$bg_b = 167;
+$email = esc_html( get_the_author_meta( 'user_email', $user_id) );
+$mobile = esc_html( get_the_author_meta( 'mobile', $user_id) );
+$phone = esc_html( get_the_author_meta( 'phone', $user_id) );
+$bg_r = 22;
+$bg_g = 43;
+$bg_b = 117;
 $bg_color = 'rgb('.$bg_r.', '.$bg_g.', '.$bg_b.')';
 
 function createpng($src,$filename){
-    $bg_r = 255;
-    $bg_g = 234;
-    $bg_b = 167;
+    $bg_r = 22;
+    $bg_g = 43;
+    $bg_b = 117;
     // Path to the source image
     $sourceImagePath = $src;    
    // Check the file type
@@ -125,7 +119,7 @@ define('THUMB_FILE', $pngthumb);
 // Create an event ticket
 $pass = new Generic($username, $username);
 $pass->setBackgroundColor($bg_color);
-$pass->setLogoText($company_title);
+// $pass->setLogoText($company_title);
 
 // Create pass structure
 $structure = new Structure();
@@ -136,10 +130,17 @@ $primary->setLabel('Name');
 $structure->addPrimaryField($primary);
 
 // // Add secondary field
-$secondary = new Field('membership', $designation);
-$secondary->setLabel('Designation');
+$secondary = new Field('email', $email);
+$secondary->setLabel('Email');
 $structure->addSecondaryField($secondary);
 
+$call_data =  !empty($mobile)?$mobile:(!empty($phone)?$phone:"");
+if(!empty($call_data)){
+// // Add secondary field
+$auxiliary = new Field('phone',$call_data);
+$auxiliary->setLabel('Phone Number');
+$structure->addAuxiliaryField($auxiliary);
+}
 // Add icon image
 $icon = new Image(ICON_FILE, 'icon');
 $pass->addImage($icon);
