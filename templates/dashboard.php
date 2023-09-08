@@ -130,7 +130,7 @@ define('THUMB_FILE', $pngthumb);
 // Create an event ticket
 $pass = new Generic($username, $username);
 $pass->setBackgroundColor($bg_color);
-$pass->setLogoText('Heigh10');
+$pass->setLogoText($company_title);
 
 // Create pass structure
 $structure = new Structure();
