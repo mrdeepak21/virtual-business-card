@@ -34,9 +34,15 @@ $username = esc_html($user_data->first_name." ".$user_data->last_name);
 $avatar = get_the_author_meta('avatar', $user_id);
 $image1 = $avatar ? wp_get_attachment_url($avatar) : plugin_dir_path(__FILE__ ).'../img/dummy.png';
 $pngthumb = createpng($image1,'thumb_'.$user_id);
-$image2 = get_the_post_thumbnail_url(esc_html( get_the_author_meta( 'company', $user_id) ),'full');
+$company_id = esc_html( get_the_author_meta( 'company', $user_id) );
+$image2 = get_the_post_thumbnail_url($company_id,'full');
+$company_title = get_the_title($company_id);
 $pnglogo = createpng($image2,'logo_'.$user_id);
 $designation = esc_html( get_the_author_meta( 'designation', $user_id) );
+$bg_r = 255;
+$bg_g = 234;
+$bg_b = 167;
+$bg_color = 'rgb('.$bg_r.', '.$bg_g.', '.$bg_b.')';
 
 require_once(plugin_dir_path( __FILE__ ) .'../vendor/autoload.php');
 
@@ -69,15 +75,24 @@ function createpng($src,$filename){
      }
     
     if ($sourceImage) {
-        // Get the dimensions of the source image
-        $width = imagesx($sourceImage);
-        $height = imagesy($sourceImage);
-    
-        // Create a blank PNG image with the same dimensions
-        $outputImage = imagecreatetruecolor($width, $height);
-    
-        // Copy the source image to the blank PNG image
-        imagecopy($outputImage, $sourceImage, 0, 0, 0, 0, $width, $height);
+       // Get the dimensions of the source image
+       $sourceWidth = imagesx($sourceImage);
+       $sourceHeight = imagesy($sourceImage);
+
+       // Create a blank PNG image with a white background
+       $outputWidth = $sourceWidth;
+       $outputHeight = $sourceHeight;
+
+       $outputImage = imagecreatetruecolor($outputWidth, $outputHeight);
+       $color = imagecolorallocate($outputImage, 255, 255, 255);
+       imagefill($outputImage, 0, 0, $color);
+
+       // Calculate the position to center the source image
+       $x = ($outputWidth - $sourceWidth) / 2;
+       $y = ($outputHeight - $sourceHeight) / 2;
+
+       // Copy the source image to the center of the output image
+       imagecopy($outputImage, $sourceImage, $x, $y, 0, 0, $sourceWidth, $sourceHeight);
     
         // Path where you want to save the PNG image
         $outputImagePath = plugin_dir_path( __FILE__ ).'../img/'.$filename.'.png';
@@ -106,7 +121,7 @@ define('P12_PASSWORD', 'virtual-passes-1010');
 define('WWDR_FILE',  plugin_dir_path( __FILE__ ) . '../assets/AppleWWDRCA.pem');
 define('PASS_TYPE_IDENTIFIER', 'pass.com.heigh10.digitalcards');
 define('TEAM_IDENTIFIER', 'PH23YH2YN9');
-define('ORGANIZATION_NAME', 'Heigh10');
+define('ORGANIZATION_NAME', $company_title);
 define('OUTPUT_PATH',  $outputDirectory);
 define('ICON_FILE',  plugin_dir_path( __FILE__ ) .'../img/icon.png');
 define('LOGO_FILE',  $pnglogo);
@@ -114,7 +129,7 @@ define('THUMB_FILE', $pngthumb);
 
 // Create an event ticket
 $pass = new Generic($username, $username);
-$pass->setBackgroundColor('rgb(255, 234, 167)');
+$pass->setBackgroundColor($bg_color);
 $pass->setLogoText('Heigh10');
 
 // Create pass structure
