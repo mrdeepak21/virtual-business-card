@@ -54,6 +54,7 @@ use Passbook\Pass\Structure;
 use Passbook\Type\Generic;
 
 function createpng($src,$filename){
+    global $bg_r,$bg_g,$bg_b; 
     // Path to the source image
     $sourceImagePath = $src;    
    // Check the file type
@@ -84,7 +85,7 @@ function createpng($src,$filename){
        $outputHeight = $sourceHeight;
 
        $outputImage = imagecreatetruecolor($outputWidth, $outputHeight);
-       $color = imagecolorallocate($outputImage, 255, 255, 255);
+       $color = imagecolorallocate($outputImage, $bg_r, $bg_g, $bg_b);
        imagefill($outputImage, 0, 0, $color);
 
        // Calculate the position to center the source image
