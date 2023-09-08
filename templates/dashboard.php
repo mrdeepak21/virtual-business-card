@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> <?php echo " Dashboard - User".bloginfo( 'name' ); ?></title>
-</head>
 <?php
 
 $ip_addr = getenv('HTTP_CLIENT_IP')?:
@@ -168,13 +161,46 @@ $pass->setBarcode($barcode);
 $factory = new PassFactory(PASS_TYPE_IDENTIFIER, TEAM_IDENTIFIER, ORGANIZATION_NAME, P12_FILE, P12_PASSWORD, WWDR_FILE);
 $factory->setOutputPath(OUTPUT_PATH);
 $factory->package($pass,$data);
-unlink($pngthumb);
-unlink($pnglogo);
 }
-
-echo '<h1><a href="'.plugins_url('../apple-passes/',__FILE__).$data.'.pkpass " download="'.$data.'.pkpass"> Add to apple wallet</a></h1>';
+if(file_exists($pngthumb)) {
+    unlink($pngthumb);
+}
+if(file_exists($pnglogo)) {
+    unlink($pnglogo);
+}
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> <?php echo " Dashboard - ".$username." ".bloginfo( 'name' ); ?></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+</head>
 <body>
+<nav class="navbar bg-dark mb-2">
+  <div class="container">
+    <a class="navbar-brand text-white" href="/">
+      <?php bloginfo( 'name' ); ?>
+    </a>
+  </div>
+</nav>
+    <section class="container container-fluid text-center">
+    <div class="row">
+        <div class="col-lg-4 col-md-12 border border-success rounded">
+        <div class="row p-3 flex-column" style="gap:20px">
+      <div class="col"><h2><?php echo $username; ?></h2></div>
     
+      <div class="col align-self-center"><a href="#" class="bg-dark p-3 text-white rounded-pill"><img src="<?php echo plugins_url('../img/icons/download-white.png',__FILE__)?>" alt=" Download QR" class="d-inline-block" style="width:25px"/> Download QR</a></div>
+
+      <div class="col align-self-center"><a href="<?php echo plugins_url('../apple-passes/',__FILE__).$data?>.pkpass" download="<?php echo $data?>.pkpass"><img src="<?php echo plugins_url('../img/add-to-apple-wallet.svg',__FILE__)?>" alt="Add to Wallet" class="d-inline-block" style="width:150px"/></a></div>
+
+      <div class="input-group mb-3 flex-column  text-center">
+  <input type="email" class="form-control rounded-pill text-center" placeholder="Enter User Email" aria-label="Enter User Email" aria-describedby="email">
+  <div class="input-group-text rounded-pill bg-dark text-white justify-content-center" id="email"><img src="<?php echo plugins_url('../img/icons/envelope-black.png',__FILE__)?>" alt=" Download QR" class="d-inline-block m-1" style="width:18px;filter:invert(100%)"/> Send Via Email</div>
+</div>
+</div>
+</div>
+</section>
 </body>
 </html>
