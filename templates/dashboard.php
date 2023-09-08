@@ -34,15 +34,15 @@ $pnglogo = createpng($image2,'logo_'.$user_id);
 $email = esc_html( get_the_author_meta( 'user_email', $user_id) );
 $mobile = esc_html( get_the_author_meta( 'mobile', $user_id) );
 $phone = esc_html( get_the_author_meta( 'phone', $user_id) );
-$bg_r = 22;
-$bg_g = 43;
-$bg_b = 117;
+$bg_r = 21;
+$bg_g = 23;
+$bg_b = 47; 
 $bg_color = 'rgb('.$bg_r.', '.$bg_g.', '.$bg_b.')';
 
 function createpng($src,$filename){
-    $bg_r = 22;
-    $bg_g = 43;
-    $bg_b = 117;
+    $bg_r = 21;
+    $bg_g = 23;
+    $bg_b = 47; 
     // Path to the source image
     $sourceImagePath = $src;    
    // Check the file type
@@ -120,6 +120,7 @@ define('THUMB_FILE', $pngthumb);
 $pass = new Generic($username, $username);
 $pass->setBackgroundColor($bg_color);
 // $pass->setLogoText($company_title);
+$pass->setLabelColor('#FFFFFF');
 
 // Create pass structure
 $structure = new Structure();
