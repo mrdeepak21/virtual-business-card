@@ -121,6 +121,8 @@ $pass = new Generic($username, $username);
 $pass->setBackgroundColor($bg_color);
 // $pass->setLogoText($company_title);
 $pass->setLabelColor('#FFFFFF');
+$pass->setForegroundColor('#FFFFFF');
+// $pass->setStripColor('#FFFFFF');
 
 // Create pass structure
 $structure = new Structure();
