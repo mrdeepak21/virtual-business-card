@@ -30,7 +30,7 @@ $pngthumb = createpng($image1,'thumb_'.$user_id);
 $company_id = esc_html( get_the_author_meta( 'company', $user_id) );
 $image2 = get_the_post_thumbnail_url($company_id,'full');
 $company_title = get_the_title($company_id);
-$pnglogo = createpng($image2,'logo_'.$user_id);
+$pnglogo = createpng($image2,'logo_'.$user_id,TRUE);
 $email = esc_html( get_the_author_meta( 'user_email', $user_id) );
 $mobile = esc_html( get_the_author_meta( 'mobile', $user_id) );
 $phone = esc_html( get_the_author_meta( 'phone', $user_id) );
@@ -39,7 +39,7 @@ $bg_g = 23;
 $bg_b = 47; 
 $bg_color = 'rgb('.$bg_r.', '.$bg_g.', '.$bg_b.')';
 
-function createpng($src,$filename){
+function createpng($src,$filename,$changecolor=FALSE){
     $bg_r = 21;
     $bg_g = 23;
     $bg_b = 47; 
@@ -75,6 +75,9 @@ function createpng($src,$filename){
        $outputImage = imagecreatetruecolor($outputWidth, $outputHeight);
        $color = imagecolorallocate($outputImage, $bg_r, $bg_g, $bg_b);
        imagefill($outputImage, 0, 0, $color);
+
+       if($changecolor) imagefilter($sourceImage, IMG_FILTER_NEGATE);
+       
 
        // Calculate the position to center the source image
        $x = ($outputWidth - $sourceWidth) / 2;
@@ -166,12 +169,12 @@ $factory = new PassFactory(PASS_TYPE_IDENTIFIER, TEAM_IDENTIFIER, ORGANIZATION_N
 $factory->setOutputPath(OUTPUT_PATH);
 $factory->package($pass,$data);
 }
-if(file_exists($pngthumb)) {
-    unlink($pngthumb);
-}
-if(file_exists($pnglogo)) {
-    unlink($pnglogo);
-}
+// if(file_exists($pngthumb)) {
+//     unlink($pngthumb);
+// }
+// if(file_exists($pnglogo)) {
+//     unlink($pnglogo);
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
