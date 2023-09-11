@@ -89,7 +89,7 @@ add_filter('manage_user-company_posts_columns', 'custom_user_company_columns');
 function custom_user_company_column($column, $post_id) {
     if ($column === 'thumbnail') {
         if (has_post_thumbnail($post_id)) {
-            echo get_the_post_thumbnail($post_id, [100,'auto']);
+            echo get_the_post_thumbnail($post_id, [200,'auto']);
         } else {
             echo 'N/A';
         }
