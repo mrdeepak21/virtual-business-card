@@ -35,13 +35,13 @@ $email = esc_html( get_the_author_meta( 'user_email', $user_id) );
 $mobile = esc_html( get_the_author_meta( 'mobile', $user_id) );
 $phone = esc_html( get_the_author_meta( 'phone', $user_id) );
 $bg_r = 21;
-$bg_g = 23;
+$bg_g = 33;
 $bg_b = 47; 
 $bg_color = 'rgb('.$bg_r.', '.$bg_g.', '.$bg_b.')';
 
 function createpng($src,$filename){
     $bg_r = 21;
-    $bg_g = 23;
+    $bg_g = 33;
     $bg_b = 47; 
     // Path to the source image
     $sourceImagePath = $src;    
