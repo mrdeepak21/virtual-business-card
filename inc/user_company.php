@@ -35,7 +35,7 @@ function create_user_company_post_type() {
             'label'                 => __('Company', 'just-qr'),
             'description'           => __('Custom post type for user companies', 'just-qr'),
             'labels'                => $labels,
-            'supports'              => array('title', 'thumbnail'),
+            'supports'              => array('title', 'thumbnail','custom-fields'),
             'taxonomies'            => array(),
             'hierarchical'          => false,            
             'show_ui'               => true,
@@ -76,8 +76,9 @@ add_action('init', 'create_user_company_post_type', 0);
 function custom_user_company_columns($columns) {
     $new_columns = array(
         'cb' => '<input type="checkbox" />',
-        'thumbnail' => __('Thumbnail'),
         'title' => __('Title'),
+        'thumbnail' => __('Main Logo'),
+        'logo' => __('White Logo'),
         'date' => __('Date'),
     );
     return $new_columns;
@@ -88,7 +89,17 @@ add_filter('manage_user-company_posts_columns', 'custom_user_company_columns');
 function custom_user_company_column($column, $post_id) {
     if ($column === 'thumbnail') {
         if (has_post_thumbnail($post_id)) {
-            echo get_the_post_thumbnail($post_id, [200,'auto']);
+            echo get_the_post_thumbnail($post_id, [100,'auto']);
+        } else {
+            echo 'N/A';
+        }
+    }
+    if ($column === 'logo') { // Check if we are in the 'logo' column
+        // Get the custom field value for the logo (assuming 'logo' is a custom field name)
+        $logo_url =get_post_meta($post_id, 'white-logo',true);
+        
+        if (!empty($logo_url)) {
+            echo '<img src="' . esc_url($logo_url) . '" style="max-width: 100px; height: auto;background-color:#000;padding:.3em;border-radius:4px" alt="Logo" />';
         } else {
             echo 'N/A';
         }

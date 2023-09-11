@@ -28,9 +28,9 @@ $avatar = get_the_author_meta('avatar', $user_id);
 $image1 = $avatar ? wp_get_attachment_url($avatar) : plugin_dir_path(__FILE__ ).'../img/dummy.png';
 $pngthumb = createpng($image1,'thumb_'.$user_id);
 $company_id = esc_html( get_the_author_meta( 'company', $user_id) );
-$image2 = get_the_post_thumbnail_url($company_id,'full');
+$image2 = get_post_meta($company_id, 'white-logo',true);
+$pnglogo = createpng($image2,'logo_'.$user_id);
 $company_title = get_the_title($company_id);
-$pnglogo = createpng($image2,'logo_'.$user_id,TRUE);
 $email = esc_html( get_the_author_meta( 'user_email', $user_id) );
 $mobile = esc_html( get_the_author_meta( 'mobile', $user_id) );
 $phone = esc_html( get_the_author_meta( 'phone', $user_id) );
@@ -39,7 +39,7 @@ $bg_g = 23;
 $bg_b = 47; 
 $bg_color = 'rgb('.$bg_r.', '.$bg_g.', '.$bg_b.')';
 
-function createpng($src,$filename,$changecolor=FALSE){
+function createpng($src,$filename){
     $bg_r = 21;
     $bg_g = 23;
     $bg_b = 47; 
@@ -75,8 +75,6 @@ function createpng($src,$filename,$changecolor=FALSE){
        $outputImage = imagecreatetruecolor($outputWidth, $outputHeight);
        $color = imagecolorallocate($outputImage, $bg_r, $bg_g, $bg_b);
        imagefill($outputImage, 0, 0, $color);
-
-       if($changecolor) imagefilter($sourceImage, IMG_FILTER_NEGATE);
        
 
        // Calculate the position to center the source image

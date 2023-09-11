@@ -28,6 +28,7 @@ function display_sales_persons() {
                     <th><?php _e('Name', 'sterling'); ?></th>
                     <th><?php _e('Email', 'sterling'); ?></th>
                     <th><?php _e('Phone', 'sterling'); ?></th>                                   
+                    <th><?php _e('Dashboard', 'sterling'); ?></th>                                   
                     <th><?php _e('Total Page Views', 'sterling'); ?></th>
                     <!-- Add more columns as needed -->
                 </tr>
@@ -39,6 +40,7 @@ function display_sales_persons() {
                     $name =  esc_html(get_the_author_meta('first_name', $user->ID)." ".get_the_author_meta('last_name', $user->ID));
                     $url_id = esc_html(get_the_author_meta('custom_user_id', $user->ID));
                     $url = site_url()."/".esc_html(get_the_author_meta('custom_user_id', $user->ID));
+                    $dash_url = site_url()."/dashboard/".esc_html(get_the_author_meta('custom_user_id', $user->ID));
                     $company = get_user_meta($user->ID,'company', true );
                     $logo = get_the_post_thumbnail_url($company,'full');
                     ?>
@@ -47,6 +49,7 @@ function display_sales_persons() {
                         <td><a href="<?php echo $url; ?>" target="_blank"><?php echo $name; ?></a></td>
                         <td><?php echo esc_html(get_the_author_meta('user_email', $user->ID)); ?></td>
                         <td><?php echo esc_html(get_the_author_meta('phone', $user->ID)); ?></td>                        
+                        <td><a href="<?php echo $dash_url; ?>" target="_blank"><?php echo $dash_url; ?></a></td>                        
                         <td><a class="open-popup" onclick="display_analytics(`<?php echo $user->ID.'`,`'.$name; ?>`);"><?php echo esc_html(get_the_author_meta('scan', $user->ID)); ?></a></td>
                         <!-- Display additional columns as needed -->
                     </tr>
