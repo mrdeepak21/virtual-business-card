@@ -86,7 +86,7 @@ $avatar_url = $avatar ? wp_get_attachment_url($avatar) : plugin_dir_url(__FILE__
                     </div>
 
                     <div class="contact-details">                    
-                            <a href="tel:+1<?php echo empty($mobile)?$phone:$mobile; ?>">
+                            <a href="tel:<?php echo empty($mobile)?$phone:$mobile; ?>">
                                 <img src="<?php echo plugins_url('../img/icons/phone-call-orange.png', __FILE__ );?>" class="icon" />
                                 Call
                             </a>                                              
@@ -94,19 +94,21 @@ $avatar_url = $avatar ? wp_get_attachment_url($avatar) : plugin_dir_url(__FILE__
                                 href="mailto:<?php echo $email; ?>">
                                 <img src="<?php echo plugins_url('../img/icons/envelope-orange.png', __FILE__ );?>" class="icon" />
                                 Email
-                            </a>                                              
+                            </a>    
+                            <?php if(!empty( $linkedin)) { ?>                                          
                             <a href="<?php echo $linkedin; ?>" class="linkedin">
                                 <img src="<?php echo plugins_url('../img/icons/linkedin.png', __FILE__ );?>" class="icon" />
                                 Profile
-                            </a>                      
+                            </a> 
+                            <?php } ?>                     
                     </div>
                 </div>
                 <div class="content">
                     <?php if(!empty($mobile)){ ?>
-                    <a href="tel: <?php echo $mobile; ?>" class="mobile">
+                    <a href="tel:<?php echo $mobile; ?>" class="mobile">
                         <img src="<?php echo plugins_url( '../img/icons/mobile.png',__FILE__ );?>" class="icon" />
                         <div>
-                          <span class="mobile-data"> +1 <?php echo $mobile; ?></span>
+                          <span class="mobile-data"> <?php echo $mobile; ?></span>
                             <p>Mobile</p>
                         </div>
                     </a>                   
@@ -114,7 +116,7 @@ $avatar_url = $avatar ? wp_get_attachment_url($avatar) : plugin_dir_url(__FILE__
                     <a href="tel: <?php echo $phone; ?>" class="phone">
                         <img src="<?php echo plugins_url( '../img/icons/phone-call-black.png',__FILE__ );?>" class="icon" />
                         <div>
-                          <span class="phone-data"> +1 <?php echo $phone; ?></span>
+                          <span class="phone-data"><?php echo $phone; ?></span>
                             <p>Phone</p>
                         </div>
                     </a>
@@ -122,7 +124,7 @@ $avatar_url = $avatar ? wp_get_attachment_url($avatar) : plugin_dir_url(__FILE__
                     <a href="#" class="fax">
                         <img src="<?php echo plugins_url( '../img/icons/fax.png',__FILE__ );?>" class="icon" />
                         <div>
-                          <span class="fax-data"> +1 <?php echo $fax; ?></span>
+                          <span class="fax-data"><?php echo $fax; ?></span>
                             <p>Fax</p>
                         </div>
                     </a>
