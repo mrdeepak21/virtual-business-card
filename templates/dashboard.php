@@ -28,6 +28,7 @@ $username = esc_html($user_data->first_name." ".$user_data->last_name);
 $designation = esc_html( get_the_author_meta( 'designation', $user_id) );
 $avatar = get_the_author_meta('avatar', $user_id);
 $image1 = $avatar ? wp_get_attachment_url($avatar) : plugin_dir_path(__FILE__ ).'../img/dummy.png';
+$usr = $avatar ? wp_get_attachment_url($avatar) : plugin_dir_url(__FILE__ ).'../img/dummy.png';
 $pngthumb = createpng($image1,'thumb_'.$user_id);
 $company_id = esc_html( get_the_author_meta( 'company', $user_id) );
 $com_logo = get_the_post_thumbnail_url($company_id,'full');
@@ -212,7 +213,7 @@ get_header();
                     </div>
                     <div class="entry">                       
                         <div class="profile-photo">
-                            <img src="<?php echo esc_attr_e( $image1, 'heigh10' ) ?>" alt="" srcset=""
+                            <img src="<?php echo esc_attr_e( $usr, 'heigh10' ) ?>" alt="" srcset=""
                                 width="180px">
                         </div>
                         <h1 class="entry-title" data-id=" <?php echo $user_id; ?>">
