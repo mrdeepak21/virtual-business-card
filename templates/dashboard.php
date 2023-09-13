@@ -156,7 +156,7 @@ $text = 'Headquartered in Silicon Valley, Heigh10 Interactive is a marketing age
 
 Heigh10 Interactive generated this pass. For more information or to create your pass, visit https://heigh10.com. Please direct any concerns or questions to support@heigh10.com.  
 
-© 2023 Heigh10 Interactive, LLC. All Rights Reserved.';
+©'.date('Y').' Heigh10 Interactive, LLC. All Rights Reserved.';
 
 // // Add Back field
 $backText = new Field('who-we-are', $text);
