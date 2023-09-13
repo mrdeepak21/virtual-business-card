@@ -104,8 +104,8 @@ function createpng($src,$filename){
 }
 
 
-$outputDirectory = wp_upload_dir()['basedir'].'/virtual-business-cards/';
-$file_url = wp_upload_dir()['baseurl'].'/virtual-business-cards/';
+$outputDirectory = wp_upload_dir()['basedir'].'/digital-cards/';
+$file_url = wp_upload_dir()['baseurl'].'/digital-cards/';
 
 if(!file_exists($outputDirectory.$data.'.pkpass')) {
 if (!file_exists($outputDirectory)) {
