@@ -84,7 +84,7 @@ add_filter( 'query_vars', function ( $vars ){
   });
 
   function genUserName() {
-    $len = 4;
+    $len = 6;
     $string = substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyz', ceil($len/strlen($x)) )),1,$len);
 if(!get_users(array(
       'meta_key' => 'custom_user_id',
