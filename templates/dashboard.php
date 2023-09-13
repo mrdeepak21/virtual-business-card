@@ -77,8 +77,8 @@ function createpng($src,$filename){
        $outputHeight = $sourceHeight;
 
        $outputImage = imagecreatetruecolor($outputWidth, $outputHeight);
-    //    $color = imagecolorallocate($outputImage, $bg_r, $bg_g, $bg_b);
-    //    imagefill($outputImage, 0, 0, $color);
+       $color = imagecolorallocate($outputImage, $bg_r, $bg_g, $bg_b);
+       imagefill($outputImage, 0, 0, $color);
        
 
        // Calculate the position to center the source image
@@ -101,12 +101,6 @@ function createpng($src,$filename){
     }
     }
 }
-
-// add_filter('document_title_parts',function ($title){
-//     // global $username;
-//     //  $title['title'] = $username." | ".bloginfo('name');
-//     //  return $title;
-// });
 
 
 $outputDirectory = wp_upload_dir()['basedir'].'/apple-passes';
