@@ -2,8 +2,8 @@
 
 /*
  * @package           virtual-business-card
- * @author            Deepak Kumar
- * @copyright         2023 Heigh10
+ * @author            Heigh10 Interactive
+ * @copyright         2023 Heigh10 Interactive
  * @license           GPL-2.0-or-later
  *
  * @wordpress-plugin
@@ -12,14 +12,14 @@
  * Version:          1.0
  * Requires at least: 5.2
  * Requires PHP:      7.3
- * Author:            Deepak Kumar
- * Author URI:        https://linkedin.com/in/deepak01
+ * Author:            Heigh10 Interactive
+ * Author URI:       https://heigh10.com
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       sterling
+ * Text Domain:       heigh10
  * Domain Path:       /languages
  */
-// @ini_set('display_errors',1);
+
 // Hook into the plugin activation
 global $wpdb;
 define('TABLE_NAME',$wpdb->prefix . 'virtual_card_scan_analytics');
