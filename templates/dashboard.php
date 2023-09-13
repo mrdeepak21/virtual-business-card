@@ -152,6 +152,17 @@ $auxiliary->setLabel('Phone Number');
 $structure->addAuxiliaryField($auxiliary);
 }
 
+$text = 'Headquartered in Silicon Valley, Heigh10 Interactive is a marketing agency helping industry-leading brands and small businesses to launch and grow through digital innovations. We handcraft world-class digital strategies that are specific to your audience. We make your business look good and consistent online. 
+
+Heigh10 Interactive generated this pass. For more information or to create your pass, visit https://heigh10.com. Please direct any concerns or questions to support@heigh10.com.  
+
+© 2023 Heigh10 Interactive, LLC. All Rights Reserved.';
+
+// // Add Back field
+$backText = new Field('who-we-are', $text);
+$backText->setLabel('created by Heigh10 Interactive');
+$structure->addBackField($backText);
+
 // Add icon image
 $icon = new Image(ICON_FILE, 'icon');
 $pass->addImage($icon);
