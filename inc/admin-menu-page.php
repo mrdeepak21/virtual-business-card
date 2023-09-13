@@ -35,7 +35,6 @@ function display_sales_persons() {
             </thead>
             <tbody>
                 <?php foreach ($users as $user) :
-                update_user_meta($user->ID, 'custom_user_id',genUserName());
                     $avatar = get_the_author_meta('avatar', $user->ID);
                     $avatar_url = !empty($avatar) ? wp_get_attachment_url($avatar) :  plugin_dir_url(__FILE__ ).'../img/dummy.webp';
                     $name =  esc_html(get_the_author_meta('first_name', $user->ID)." ".get_the_author_meta('last_name', $user->ID));
