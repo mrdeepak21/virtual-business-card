@@ -81,12 +81,15 @@ function display_sales_persons() {
         jQuery(document).ready(function($) {
         jQuery('.popup_modal .html').html(`<h2>QR Code for <i>${name}</i></h2><div id='qr'></div><br><a href="${void(0)}" id="download" class="button" download="${name}">Download QR Code</a>`); 
         let qrdim = 500;
+        let color_dark = "#000000";
+        let color_light = "#ffffff";
+
         var qrcode = new QRCode(document.getElementById("qr"), {
             text: url,
             width: qrdim,
             height: qrdim,
-            colorDark : "#6c5ce7",
-            colorLight : "#ffeaa7",
+            colorDark : color_dark,
+            colorLight : color_light,
             correctLevel : QRCode.CorrectLevel.H
         });
 
@@ -113,7 +116,7 @@ function display_sales_persons() {
             var bgWidth = logoWidth + 2 * padding;
             var bgHeight = logoHeight + 2 * padding;
 
-            ctx.fillStyle = "#ffeaa7"; // Replace with your desired background color
+            ctx.fillStyle = color_light; // Replace with your desired background color
             ctx.fillRect(bgX, bgY, bgWidth, bgHeight);
 
             // Draw logo image on top of the background rectangle
