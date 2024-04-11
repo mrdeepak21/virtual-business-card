@@ -23,14 +23,21 @@ $user =get_users(
      'number' => 1
     )
    );
-   if(!$user) {global $wp_query;
+
+$user_id = intval($user[0]->data->ID);
+$user_data = get_userdata($user_id);  
+$user_roles = $user_data->roles;
+   
+   if(!$user || !in_array('sales_person',$user_roles)) 
+   {
+     global $wp_query;
     $wp_query->set_404();
     status_header( 404 );
     get_template_part( 404 );
-    exit('User Not Found!');}
+    exit('User Not Found!');
+    }
 
-$user_id = intval($user[0]->data->ID);
-$user_data = get_userdata($user_id);
+
 //default usr_meta
 update_user_meta($user_id, 'scan',intval(get_the_author_meta('scan', $user_id))+1);
 global $wpdb;
@@ -169,16 +176,5 @@ $avatar_url = $avatar ? wp_get_attachment_url($avatar) : plugin_dir_url(__FILE__
     </a>
 </footer>
 </div>
-<script>
-    // $=jQuery.noConflict();
-    // $('a').click(function(e){
-    //     $.post(
-    //         "<?php echo site_url().'/wp-json/analytics/btnclick'; ?>",
-    //         {uid:<?php echo $user_id; ?>},
-    //         function(data,status){
-    //             console.log(data);
-    //             console.log(status);
-    //             });
-    //         });
-</script>
-<?php get_footer(); ?>
+<?php get_footer(); 
+?>
